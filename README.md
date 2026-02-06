@@ -10,7 +10,7 @@ This README explains the meaning of each top-level folder (e.g., `admin/`, `app/
 - `config/` Configuration and environment settings. Contains database credentials files and bootstrap config. This folder should remain outside the public web root for security.
 - `storage/` Runtime files created by the app, such as logs and uploads.
 - `docs/` Deliverable 2 documentation such as diagrams and screenshots.
-- `scripts/` Utility scripts (setup, maintenance, etc.).
+- `scripts/` Utility scripts (setup, maintenance, etc.).a
 - `tests/` Test files for verifying functionality.
 
 **Files And Contents**
