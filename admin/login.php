@@ -1,7 +1,9 @@
 <?php
 session_start();
+$adminBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/login.php')), '/');
+
 if (isset($_SESSION['admin_id'])) {
-    header("Location: dashboard.php");
+    header('Location: ' . $adminBasePath . '/dashboard.php');
     exit;
 }
 $err = $_GET['err'] ?? '';
@@ -29,13 +31,13 @@ $err = $_GET['err'] ?? '';
         </div>
 
         <?php if ($err === '1'): ?>
-            <div class="error">Invalid email or password.</div>
+            <div class="error">Invalid username or password.</div>
         <?php endif; ?>
 
         <form method="POST" action="auth.php" autocomplete="off">
             <div class="field">
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="admin@example.com" required />
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" placeholder="admin" required />
             </div>
 
             <div class="field">
@@ -53,7 +55,7 @@ $err = $_GET['err'] ?? '';
             <button class="btn primary" type="submit" style="width:100%;">Login</button>
 
             <p class="small" style="margin-top:12px;">
-                Default demo: <code>admin@example.com</code> / <code>Admin@123</code>
+                Demo login credentials are configured in <code>config/.env</code>.
             </p>
         </form>
     </div>

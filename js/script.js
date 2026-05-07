@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Simple featured product search interaction.
+    // Simple live listing search interaction.
     var searchInput = document.querySelector("[data-search-input]");
     var searchStatus = document.querySelector("[data-search-status]");
     var productCards = document.querySelectorAll("[data-product-card]");
@@ -59,12 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             if (query === "") {
-                searchStatus.textContent = "Showing " + visibleCount + " featured products ready for local deals.";
+                searchStatus.textContent = "Showing " + visibleCount + " live listings ready for local deals.";
                 return;
             }
 
             if (visibleCount === 0) {
-                searchStatus.textContent = 'No featured products matched "' + query + '".';
+                searchStatus.textContent = 'No live listings matched "' + query + '".';
                 return;
             }
 

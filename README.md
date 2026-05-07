@@ -17,7 +17,7 @@ This README explains the meaning of each top-level folder (e.g., `admin/`, `app/
 - `admin/index.php` Admin site entry point placeholder. Currently empty (no PHP or HTML yet).
 - `public/index.php` Public site entry point placeholder. Currently empty (no PHP or HTML yet).
 - `public/test.php` PHP test page. Contains PHP error display settings, a greeting string, a sample array of items, a server time variable, and an HTML page that renders them.
-- `config/.env` Environment variables for database credentials. Contains `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`, and `DB_CHARSET` with placeholder values.
+- `config/.env` Environment variables for PostgreSQL database credentials. Contains `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASS`, and `DB_SSLMODE` values.
 - `config/.env.example` Sample environment file for sharing/onboarding. Contains the same keys as `.env` with placeholder values.
 - `config/config.php` Configuration bootstrap placeholder. Currently empty (no PHP yet).
 - `README.md` This documentation file.

@@ -1,43 +1,38 @@
 <?php
-// Featured products are stored in a PHP array so the cards can be generated in a loop.
-$featuredProducts = [
-    [
-        'title' => 'iPhone 11',
-        'price' => 6999,
-        'location' => 'Cape Town',
-        'image' => 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80',
-    ],
-    [
-        'title' => 'Gaming Laptop',
-        'price' => 15999,
-        'location' => 'Johannesburg',
-        'image' => 'https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?auto=format&fit=crop&w=900&q=80',
-    ],
-    [
-        'title' => 'Mountain Bike',
-        'price' => 8400,
-        'location' => 'Durban',
-        'image' => 'https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=900&q=80',
-    ],
-    [
-        'title' => 'Sneakers',
-        'price' => 1450,
-        'location' => 'Pretoria',
-        'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80',
-    ],
-    [
-        'title' => 'Desk Chair',
-        'price' => 2200,
-        'location' => 'Gqeberha',
-        'image' => 'https://images.unsplash.com/photo-1505843490701-5be5d5c3f3f1?auto=format&fit=crop&w=900&q=80',
-    ],
-    [
-        'title' => 'PlayStation 5',
-        'price' => 11999,
-        'location' => 'Bloemfontein',
-        'image' => 'https://images.unsplash.com/photo-1606813907291-d86efa9b94db?auto=format&fit=crop&w=900&q=80',
-    ],
-];
+require_once __DIR__ . '/config/database.php';
+require_once __DIR__ . '/app/helpers/product_image_helper.php';
+
+$featuredProducts = [];
+$featuredProductsError = '';
+
+try {
+    $pdo = getDbConnection();
+    $stmt = $pdo->prepare(
+        'SELECT
+            p.product_id,
+            p.title,
+            p.price,
+            p.location,
+            c.category_name,
+            primary_image.image_path AS primary_image_path
+         FROM products p
+         LEFT JOIN categories c ON c.category_id = p.category_id
+         LEFT JOIN LATERAL (
+            SELECT image_path
+            FROM product_images
+            WHERE product_id = p.product_id
+            ORDER BY is_primary DESC, uploaded_at ASC, image_id ASC
+            LIMIT 1
+         ) primary_image ON TRUE
+         WHERE p.active = TRUE AND p.status = :status
+         ORDER BY p.created_at DESC
+         LIMIT 6'
+    );
+    $stmt->execute([':status' => 'active']);
+    $featuredProducts = $stmt->fetchAll();
+} catch (Throwable $exception) {
+    $featuredProductsError = 'Live listings could not be loaded right now.';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,8 +63,8 @@ $featuredProducts = [
                     <h1 class="hero-title">Buy and Sell Anything Locally</h1>
                     <p class="hero-copy">South Africa's trusted C2C marketplace.</p>
                     <div class="hero-actions">
-                        <a href="#browse" class="btn btn-market-primary btn-lg btn-animated">Browse Items</a>
-                        <a href="#sell" class="btn btn-market-outline btn-lg btn-animated">Start Selling</a>
+                        <a href="public/products.php" class="btn btn-market-primary btn-lg btn-animated">Browse Items</a>
+                        <a href="public/sell_product.php" class="btn btn-market-outline btn-lg btn-animated">Start Selling</a>
                     </div>
 
                     <div class="hero-search-card">
@@ -85,7 +80,7 @@ $featuredProducts = [
                             >
                         </div>
                         <p class="search-status" data-search-status>
-                            Showing <?php echo count($featuredProducts); ?> featured products ready for local deals.
+                            Showing <?php echo count($featuredProducts); ?> live listings ready for local deals.
                         </p>
                     </div>
                 </div>
@@ -130,40 +125,40 @@ $featuredProducts = [
 
             <div class="row g-4">
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Electronics">
                         <div class="feature-icon"><i class="bi bi-phone"></i></div>
                         <h3>Electronics</h3>
-                    </article>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Clothing">
                         <div class="feature-icon"><i class="bi bi-bag"></i></div>
                         <h3>Clothing</h3>
-                    </article>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Vehicle">
                         <div class="feature-icon"><i class="bi bi-car-front"></i></div>
                         <h3>Vehicles</h3>
-                    </article>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Furniture">
                         <div class="feature-icon"><i class="bi bi-lamp"></i></div>
                         <h3>Furniture</h3>
-                    </article>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Sport">
                         <div class="feature-icon"><i class="bi bi-bicycle"></i></div>
                         <h3>Sports</h3>
-                    </article>
+                    </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <article class="feature-card">
+                    <a class="feature-card" href="public/products.php?category=Other">
                         <div class="feature-icon"><i class="bi bi-grid-3x3-gap"></i></div>
                         <h3>Other</h3>
-                    </article>
+                    </a>
                 </div>
             </div>
         </div>
@@ -174,35 +169,56 @@ $featuredProducts = [
             <div class="section-heading">
                 <span class="section-kicker">Featured Products</span>
                 <h2>Fresh listings from sellers near you</h2>
-                <p>These sample cards are generated from a PHP array for easy expansion.</p>
+                <p>These cards are loaded from products that sellers have uploaded.</p>
             </div>
 
-            <div class="row g-4">
-                <?php foreach ($featuredProducts as $product): ?>
-                    <div class="col-sm-6 col-xl-4 product-item" data-product-card data-product-name="<?php echo htmlspecialchars(strtolower($product['title'])); ?>">
-                        <article class="product-card">
-                            <div class="product-image-wrap">
-                                <img
-                                    src="<?php echo htmlspecialchars($product['image']); ?>"
-                                    alt="<?php echo htmlspecialchars($product['title']); ?>"
-                                    class="img-fluid product-image"
-                                    loading="lazy"
-                                >
-                            </div>
-                            <div class="product-body">
-                                <div class="product-meta">
-                                    <span class="product-location">
-                                        <i class="bi bi-geo-alt"></i>
-                                        <?php echo htmlspecialchars($product['location']); ?>
-                                    </span>
+            <?php if ($featuredProductsError !== ''): ?>
+                <div class="alert alert-warning"><?php echo htmlspecialchars($featuredProductsError); ?></div>
+            <?php elseif ($featuredProducts === []): ?>
+                <div class="empty-listings-card">
+                    <h3>No listings uploaded yet</h3>
+                    <p>Be the first seller to add a product to LocalMarket.</p>
+                    <a href="public/sell_product.php" class="btn btn-market-primary btn-animated">Create First Listing</a>
+                </div>
+            <?php else: ?>
+                <div class="row g-4">
+                    <?php foreach ($featuredProducts as $product): ?>
+                        <?php
+                        $searchText = strtolower(trim(
+                            $product['title'] . ' ' .
+                            ($product['location'] ?? '') . ' ' .
+                            ($product['category_name'] ?? '')
+                        ));
+                        ?>
+                        <div class="col-sm-6 col-xl-4 product-item" data-product-card data-product-name="<?php echo htmlspecialchars($searchText); ?>">
+                            <article class="product-card">
+                                <div class="product-image-wrap">
+                                    <img
+                                        src="<?php echo htmlspecialchars(public_asset_url($product['primary_image_path'])); ?>"
+                                        alt="<?php echo htmlspecialchars($product['title']); ?>"
+                                        class="img-fluid product-image"
+                                        loading="lazy"
+                                    >
                                 </div>
-                                <h3><?php echo htmlspecialchars($product['title']); ?></h3>
-                                <p class="product-price">R<?php echo number_format($product['price']); ?></p>
-                                <a href="#cta" class="btn btn-market-outline btn-animated">View Item</a>
-                            </div>
-                        </article>
-                    </div>
-                <?php endforeach; ?>
+                                <div class="product-body">
+                                    <div class="product-meta">
+                                        <span class="product-location">
+                                            <i class="bi bi-geo-alt"></i>
+                                            <?php echo htmlspecialchars($product['location'] ?: 'Location not listed'); ?>
+                                        </span>
+                                    </div>
+                                    <h3><?php echo htmlspecialchars($product['title']); ?></h3>
+                                    <p class="product-price">R<?php echo number_format((float) $product['price'], 2); ?></p>
+                                    <a href="public/product.php?id=<?php echo (int) $product['product_id']; ?>" class="btn btn-market-outline btn-animated">View Item</a>
+                                </div>
+                            </article>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="text-center mt-5">
+                <a href="public/products.php" class="btn btn-market-primary btn-lg btn-animated">View All Listings</a>
             </div>
         </div>
     </section>
@@ -283,7 +299,7 @@ $featuredProducts = [
                     <h2>Start selling today</h2>
                     <p>Create your free LocalMarket account and reach nearby buyers in minutes.</p>
                 </div>
-                <a href="#home" class="btn btn-light btn-lg btn-animated cta-button">Create Free Account</a>
+                <a href="public/register.php" class="btn btn-light btn-lg btn-animated cta-button">Create Free Account</a>
             </div>
         </div>
     </section>

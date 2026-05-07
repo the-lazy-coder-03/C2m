@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650" role="img" aria-label="Product image placeholder">
+  <rect width="900" height="650" fill="#f8f9fa"/>
+  <rect x="70" y="70" width="760" height="510" rx="32" fill="#ffffff" stroke="#d9e2ef" stroke-width="4"/>
+  <circle cx="310" cy="270" r="58" fill="#dbeafe"/>
+  <path d="M185 490L360 340L470 430L555 355L715 490H185Z" fill="#bfdbfe"/>
+  <path d="M185 490H715" stroke="#0d6efd" stroke-width="8" stroke-linecap="round"/>
+  <text x="450" y="555" fill="#64748b" font-family="Arial, sans-serif" font-size="34" text-anchor="middle">No product image</text>
+</svg>
