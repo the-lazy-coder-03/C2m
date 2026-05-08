@@ -1,16 +1,25 @@
 <?php
 require_once __DIR__ . '/../app/helpers/jwt_helper.php';
 require_once __DIR__ . '/../app/helpers/session_helper.php';
+require_once __DIR__ . '/../app/helpers/cart_helper.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/helpers/product_image_helper.php';
+
+startUserSession();
 
 $product = null;
 $images = [];
 $error = '';
+$flash = $_SESSION['cart_flash'] ?? null;
 $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $currentUser = current_user_from_jwt();
 $canManageProduct = false;
+$canAddToCart = false;
+$isProductAvailable = false;
 $deleteToken = '';
+$cartToken = '';
+$cartIds = cart_product_ids();
+unset($_SESSION['cart_flash']);
 
 if (!$productId) {
     $error = 'A valid product ID is required.';
@@ -28,6 +37,8 @@ if (!$productId) {
                 p.condition,
                 p.location,
                 p.seller_id,
+                p.status,
+                p.active,
                 p.created_at,
                 c.category_name,
                 u.first_name,
@@ -43,6 +54,14 @@ if (!$productId) {
         if (!$product) {
             $error = 'Product was not found.';
         } else {
+            $isProductActive = in_array($product['active'], [true, 1, '1', 't', 'true'], true);
+            $isProductAvailable = $isProductActive && $product['status'] === 'active' && (int) $product['quantity'] > 0;
+            $canManageProduct = $currentUser !== null && (int) $product['seller_id'] === (int) $currentUser['user_id'];
+
+            if (!$isProductAvailable && !$canManageProduct) {
+                $error = 'This product is no longer available.';
+            }
+
             $imageStmt = $pdo->prepare(
                 'SELECT image_path, is_primary
                  FROM product_images
@@ -51,10 +70,14 @@ if (!$productId) {
             );
             $imageStmt->execute([':product_id' => $productId]);
             $images = $imageStmt->fetchAll();
-            $canManageProduct = $currentUser !== null && (int) $product['seller_id'] === (int) $currentUser['user_id'];
+            $canAddToCart = $currentUser !== null && !$canManageProduct && $isProductAvailable;
 
             if ($canManageProduct) {
                 $deleteToken = getCsrfToken('delete_listing');
+            }
+
+            if ($canAddToCart) {
+                $cartToken = getCsrfToken('cart_action');
             }
         }
     } catch (Throwable $exception) {
@@ -78,6 +101,12 @@ $mainImagePath = $images[0]['image_path'] ?? null;
     <?php include __DIR__ . '/includes/market_nav.php'; ?>
 
     <main class="container py-5">
+        <?php if ($flash): ?>
+            <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+                <?php echo htmlspecialchars($flash['message']); ?>
+            </div>
+        <?php endif; ?>
+
         <?php if ($error !== ''): ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
             <a class="btn btn-outline-primary" href="products.php">Back to products</a>
@@ -115,13 +144,33 @@ $mainImagePath = $images[0]['image_path'] ?? null;
                         <div class="border-top border-bottom py-3 my-3">
                             <div><strong>Condition:</strong> <?php echo htmlspecialchars(ucfirst($product['condition'])); ?></div>
                             <div><strong>Quantity:</strong> <?php echo (int) $product['quantity']; ?></div>
+                            <div><strong>Status:</strong> <?php echo htmlspecialchars(ucfirst($product['status'])); ?></div>
                             <div><strong>Location:</strong> <?php echo htmlspecialchars($product['location'] ?: 'Location not listed'); ?></div>
                             <div><strong>Seller:</strong> <?php echo htmlspecialchars(trim(($product['first_name'] ?? '') . ' ' . ($product['last_name'] ?? '')) ?: 'Seller'); ?></div>
                         </div>
 
                         <p><?php echo nl2br(htmlspecialchars($product['description'] ?: 'No description provided.')); ?></p>
-                        <a class="btn btn-primary w-100 mt-3" href="products.php">Back to Browse</a>
-                        <?php if ($canManageProduct): ?>
+                        <?php if ($canAddToCart): ?>
+                            <?php $isInCart = in_array((int) $product['product_id'], $cartIds, true); ?>
+                            <?php if ($isInCart): ?>
+                                <a class="btn btn-success w-100 mt-3" href="cart.php">Already in Cart - View Cart</a>
+                            <?php else: ?>
+                                <form class="mt-3" action="add_to_cart.php" method="POST">
+                                    <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($cartToken); ?>">
+                                    <button class="btn btn-success w-100" type="submit">Add to Cart</button>
+                                </form>
+                            <?php endif; ?>
+                        <?php elseif (!$currentUser && $isProductAvailable): ?>
+                            <a class="btn btn-success w-100 mt-3" href="login.php">Login to Add to Cart</a>
+                        <?php elseif ($canManageProduct): ?>
+                            <div class="alert alert-info mt-3 mb-0">This is your listing, so the cart button is hidden.</div>
+                        <?php else: ?>
+                            <div class="alert alert-warning mt-3 mb-0">This listing is not available for purchase.</div>
+                        <?php endif; ?>
+
+                        <a class="btn btn-outline-primary w-100 mt-2" href="products.php">Back to Browse</a>
+                        <?php if ($canManageProduct && $product['status'] !== 'sold'): ?>
                             <form
                                 class="mt-2"
                                 action="delete_listing.php"
@@ -132,6 +181,8 @@ $mainImagePath = $images[0]['image_path'] ?? null;
                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteToken); ?>">
                                 <button class="btn btn-outline-danger w-100" type="submit">Delete Listing</button>
                             </form>
+                        <?php elseif ($canManageProduct): ?>
+                            <button class="btn btn-outline-secondary w-100 mt-2" type="button" disabled>Sold - Kept for Records</button>
                         <?php endif; ?>
                     </div>
                 </div>

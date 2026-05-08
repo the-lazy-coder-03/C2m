@@ -80,6 +80,7 @@ try {
             <?php else: ?>
                 <div class="row g-4">
                     <?php foreach ($listings as $listing): ?>
+                        <?php $isSold = $listing['status'] === 'sold'; ?>
                         <div class="col-md-6 col-xl-4">
                             <article class="card market-card product-card">
                                 <img
@@ -101,15 +102,19 @@ try {
                                     </p>
                                     <div class="d-grid gap-2">
                                         <a class="btn btn-outline-primary" href="product.php?id=<?php echo (int) $listing['product_id']; ?>">View Listing</a>
-                                        <form
-                                            action="delete_listing.php"
-                                            method="POST"
-                                            onsubmit="return confirm('Delete this listing permanently?');"
-                                        >
-                                            <input type="hidden" name="product_id" value="<?php echo (int) $listing['product_id']; ?>">
-                                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteToken); ?>">
-                                            <button class="btn btn-outline-danger w-100" type="submit">Delete Listing</button>
-                                        </form>
+                                        <?php if ($isSold): ?>
+                                            <button class="btn btn-outline-secondary" type="button" disabled>Sold - Kept for Records</button>
+                                        <?php else: ?>
+                                            <form
+                                                action="delete_listing.php"
+                                                method="POST"
+                                                onsubmit="return confirm('Delete this listing permanently?');"
+                                            >
+                                                <input type="hidden" name="product_id" value="<?php echo (int) $listing['product_id']; ?>">
+                                                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteToken); ?>">
+                                                <button class="btn btn-outline-danger w-100" type="submit">Delete Listing</button>
+                                            </form>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </article>

@@ -8,9 +8,10 @@ startUserSession();
 
 $currentUser = require_user_from_jwt();
 $errors = [];
-$successMessage = '';
 $categories = [];
 $maxImageCount = get_product_image_max_count();
+$maxImageBytes = get_effective_product_image_max_bytes();
+$maxImageSizeLabel = format_upload_size($maxImageBytes);
 $formData = [
     'category_id' => '',
     'title' => '',
@@ -194,10 +195,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
                                 multiple
                                 data-image-input
                                 data-max-images="<?php echo $maxImageCount; ?>"
+                                data-max-bytes="<?php echo $maxImageBytes; ?>"
                             >
                             <div class="form-help mt-2">
                                 Select up to <?php echo $maxImageCount; ?> photos. The first photo becomes the main image.
-                                Maximum size: 5MB per image.
+                                Hold Command on Mac or Ctrl on Windows to choose more than one photo.
+                                Maximum size: <?php echo htmlspecialchars($maxImageSizeLabel); ?> per image.
                             </div>
                             <div class="image-preview-grid mt-3" data-image-preview aria-live="polite"></div>
                         </div>

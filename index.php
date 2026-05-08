@@ -2,6 +2,11 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/app/helpers/product_image_helper.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isAdminLoggedIn = isset($_SESSION['admin_id']);
 $featuredProducts = [];
 $featuredProductsError = '';
 

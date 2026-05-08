@@ -32,7 +32,7 @@ try {
     $pdo->beginTransaction();
 
     $ownerStmt = $pdo->prepare(
-        'SELECT product_id
+        'SELECT product_id, status
          FROM products
          WHERE product_id = :product_id
            AND seller_id = :seller_id
@@ -43,11 +43,23 @@ try {
         ':seller_id' => $currentUser['user_id'],
     ]);
 
-    if (!$ownerStmt->fetch()) {
+    $listing = $ownerStmt->fetch();
+
+    if (!$listing) {
         $pdo->rollBack();
         $_SESSION['listing_flash'] = [
             'type' => 'danger',
             'message' => 'Listing was not found, or you do not have permission to delete it.',
+        ];
+        header('Location: my_listings.php');
+        exit;
+    }
+
+    if ($listing['status'] === 'sold') {
+        $pdo->rollBack();
+        $_SESSION['listing_flash'] = [
+            'type' => 'warning',
+            'message' => 'Sold listings are kept for order records and cannot be deleted.',
         ];
         header('Location: my_listings.php');
         exit;

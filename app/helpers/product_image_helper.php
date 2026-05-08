@@ -33,13 +33,6 @@ if (!function_exists('public_asset_url')) {
     }
 }
 
-if (!function_exists('product_image_placeholder_url')) {
-    function product_image_placeholder_url(): string
-    {
-        return public_asset_url('assets/images/product-placeholder.svg');
-    }
-}
-
 if (!function_exists('get_product_upload_relative_dir')) {
     function get_product_upload_relative_dir(): string
     {
@@ -51,6 +44,66 @@ if (!function_exists('get_product_image_max_count')) {
     function get_product_image_max_count(): int
     {
         return max(1, (int) config_get('PRODUCT_IMAGE_MAX_COUNT', '8'));
+    }
+}
+
+if (!function_exists('upload_size_to_bytes')) {
+    function upload_size_to_bytes(string $size): int
+    {
+        $size = trim($size);
+
+        if ($size === '') {
+            return 0;
+        }
+
+        $unit = strtolower($size[strlen($size) - 1]);
+        $bytes = (float) $size;
+
+        return match ($unit) {
+            'g' => (int) ($bytes * 1024 * 1024 * 1024),
+            'm' => (int) ($bytes * 1024 * 1024),
+            'k' => (int) ($bytes * 1024),
+            default => (int) $bytes,
+        };
+    }
+}
+
+if (!function_exists('format_upload_size')) {
+    function format_upload_size(int $bytes): string
+    {
+        if ($bytes >= 1024 * 1024) {
+            return rtrim(rtrim(number_format($bytes / 1024 / 1024, 1), '0'), '.') . 'MB';
+        }
+
+        if ($bytes >= 1024) {
+            return rtrim(rtrim(number_format($bytes / 1024, 1), '0'), '.') . 'KB';
+        }
+
+        return $bytes . ' bytes';
+    }
+}
+
+if (!function_exists('get_configured_product_image_max_bytes')) {
+    function get_configured_product_image_max_bytes(): int
+    {
+        return max(1, (int) config_get('PRODUCT_IMAGE_MAX_BYTES', '10485760'));
+    }
+}
+
+if (!function_exists('get_php_upload_max_bytes')) {
+    function get_php_upload_max_bytes(): int
+    {
+        return upload_size_to_bytes((string) ini_get('upload_max_filesize'));
+    }
+}
+
+if (!function_exists('get_effective_product_image_max_bytes')) {
+    function get_effective_product_image_max_bytes(): int
+    {
+        $configuredMax = get_configured_product_image_max_bytes();
+        $phpMax = get_php_upload_max_bytes();
+
+        return $phpMax > 0 ? min($configuredMax, $phpMax) : $configuredMax;
     }
 }
 
@@ -85,7 +138,10 @@ if (!function_exists('upload_error_message')) {
     function upload_error_message(int $errorCode): string
     {
         return match ($errorCode) {
-            UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'The image is larger than the allowed upload size.',
+            UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => sprintf(
+                'One selected image is larger than the PHP server upload limit (%s per file). Restart the local server with a higher upload_max_filesize, or choose smaller images.',
+                format_upload_size(get_php_upload_max_bytes())
+            ),
             UPLOAD_ERR_PARTIAL => 'The image only uploaded partially. Please try again.',
             UPLOAD_ERR_NO_TMP_DIR => 'The server is missing a temporary upload folder.',
             UPLOAD_ERR_CANT_WRITE => 'The server could not write the uploaded image.',
@@ -107,7 +163,7 @@ if (!function_exists('store_product_images')) {
         ));
         $uploadRelativeDir = get_product_upload_relative_dir();
         $uploadAbsoluteDir = project_public_path($uploadRelativeDir);
-        $maxBytes = (int) config_get('PRODUCT_IMAGE_MAX_BYTES', '5242880');
+        $maxBytes = get_effective_product_image_max_bytes();
         $maxImages = get_product_image_max_count();
         $allowedMimes = [
             'image/jpeg' => 'jpg',
@@ -131,7 +187,7 @@ if (!function_exists('store_product_images')) {
                 }
 
                 if ((int) $file['size'] > $maxBytes) {
-                    throw new RuntimeException('Each product image must be 5MB or smaller.');
+                    throw new RuntimeException(sprintf('Each product image must be %s or smaller.', format_upload_size($maxBytes)));
                 }
 
                 $tmpName = (string) $file['tmp_name'];

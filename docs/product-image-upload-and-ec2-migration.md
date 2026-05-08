@@ -62,14 +62,14 @@ DB_PASS=
 DB_SSLMODE=prefer
 PUBLIC_WEB_BASE=/public
 PRODUCT_UPLOAD_RELATIVE_DIR=uploads/products
-PRODUCT_IMAGE_MAX_BYTES=5242880
-DEMO_SELLER_ID=1
+PRODUCT_IMAGE_MAX_BYTES=10485760
+PRODUCT_IMAGE_MAX_COUNT=8
 ```
 
 Start the server from the project root:
 
 ```bash
-php -S localhost:8000
+php -d upload_max_filesize=10M -d post_max_size=80M -d max_file_uploads=20 -d memory_limit=256M -S localhost:8000
 ```
 
 Open:
@@ -139,7 +139,6 @@ DB_USER=
 DB_PASS=
 DB_SSLMODE=
 PUBLIC_WEB_BASE=
-DEMO_SELLER_ID=
 ```
 
 The image paths stored in PostgreSQL do not change.

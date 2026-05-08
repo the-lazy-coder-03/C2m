@@ -37,12 +37,15 @@ $err = $_GET['err'] ?? '';
         <form method="POST" action="auth.php" autocomplete="off">
             <div class="field">
                 <label for="username">Username</label>
-                <input id="username" name="username" type="text" placeholder="admin" required />
+                <input id="username" name="username" type="text" placeholder="Enter admin username" required />
             </div>
 
             <div class="field">
                 <label for="password">Password</label>
-                <input id="password" name="password" type="password" placeholder="••••••••" required />
+                <div class="password-toggle-wrap">
+                    <input id="password" name="password" type="password" placeholder="••••••••" required data-password-input />
+                    <button class="password-toggle-btn" type="button" data-password-toggle aria-label="Show password">Show</button>
+                </div>
             </div>
 
             <div class="helper">
@@ -53,10 +56,6 @@ $err = $_GET['err'] ?? '';
             </div>
 
             <button class="btn primary" type="submit" style="width:100%;">Login</button>
-
-            <p class="small" style="margin-top:12px;">
-                Demo login credentials are configured in <code>config/.env</code>.
-            </p>
         </form>
     </div>
 </div>

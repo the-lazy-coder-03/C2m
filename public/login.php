@@ -38,13 +38,16 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
 
                 <form class="market-card bg-white p-4" action="login_process.php" method="POST" novalidate>
                     <div class="mb-3">
-                        <label class="form-label" for="email">Email address</label>
-                        <input class="form-control" id="email" name="email" type="email" value="<?php echo htmlspecialchars($old['email'] ?? ''); ?>" required>
+                        <label class="form-label" for="login">Email address or admin username</label>
+                        <input class="form-control" id="login" name="login" type="text" value="<?php echo htmlspecialchars($old['login'] ?? ''); ?>" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="password">Password</label>
-                        <input class="form-control" id="password" name="password" type="password" required>
+                        <div class="password-toggle-wrap">
+                            <input class="form-control" id="password" name="password" type="password" required data-password-input>
+                            <button class="password-toggle-btn" type="button" data-password-toggle aria-label="Show password">Show</button>
+                        </div>
                     </div>
 
                     <button class="btn btn-primary w-100 mt-2" type="submit">Login</button>
@@ -58,5 +61,6 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
         </div>
     </main>
 </div>
+<script src="assets/js/marketplace.js"></script>
 </body>
 </html>

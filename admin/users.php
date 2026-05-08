@@ -1,44 +1,121 @@
 <?php
 $pageTitle = 'Users';
 $active = 'users';
+require_once __DIR__ . '/../config/database.php';
 require __DIR__ . '/partials/header.php';
+
+$users = [];
+$error = '';
+
+try {
+    $pdo = getDbConnection();
+    $stmt = $pdo->query(
+        'SELECT
+            u.user_id,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.phone,
+            u.active,
+            u.created_at,
+            COALESCE(listing_count.total_listings, 0) AS total_listings,
+            COALESCE(buyer_count.total_buyer_orders, 0) AS total_buyer_orders,
+            COALESCE(seller_count.total_seller_orders, 0) AS total_seller_orders
+         FROM users u
+         LEFT JOIN LATERAL (
+            SELECT COUNT(*) AS total_listings
+            FROM products
+            WHERE seller_id = u.user_id
+         ) listing_count ON TRUE
+         LEFT JOIN LATERAL (
+            SELECT COUNT(*) AS total_buyer_orders
+            FROM orders
+            WHERE buyer_id = u.user_id
+         ) buyer_count ON TRUE
+         LEFT JOIN LATERAL (
+            SELECT COUNT(*) AS total_seller_orders
+            FROM orders
+            WHERE seller_id = u.user_id
+         ) seller_count ON TRUE
+         ORDER BY u.created_at DESC'
+    );
+    $users = $stmt->fetchAll();
+} catch (Throwable $exception) {
+    $error = 'Users could not be loaded: ' . $exception->getMessage();
+}
 ?>
 
-<section class="page-head">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <div>
-        <h2>Users</h2>
-        <p class="muted">Manage buyers and sellers in the marketplace.</p>
+        <h1 class="h2 mb-1">Users</h1>
+        <p class="text-muted mb-0">Live user accounts from PostgreSQL.</p>
     </div>
-    <button class="btn primary" type="button">Add User</button>
-</section>
+</div>
 
-<section class="card">
-    <div class="table">
-        <div class="row head">
-            <div>Name</div>
-            <div>Email</div>
-            <div>Role</div>
-            <div>Status</div>
+<?php if ($error !== ''): ?>
+    <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+<?php elseif ($users === []): ?>
+    <div class="alert alert-info">No users found in the database.</div>
+<?php else: ?>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">All Users</h5>
+            <span class="badge bg-primary-subtle text-primary"><?php echo count($users); ?> total</span>
         </div>
-        <div class="row">
-            <div>Alex Kim</div>
-            <div>alex@example.com</div>
-            <div>Seller</div>
-            <div><span class="status success">Active</span></div>
-        </div>
-        <div class="row">
-            <div>Maria Gomez</div>
-            <div>maria@example.com</div>
-            <div>Buyer</div>
-            <div><span class="status neutral">Verified</span></div>
-        </div>
-        <div class="row">
-            <div>Omar Patel</div>
-            <div>omar@example.com</div>
-            <div>Admin</div>
-            <div><span class="status warning">Review</span></div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="ps-4">User</th>
+                        <th>Phone</th>
+                        <th>Marketplace Activity</th>
+                        <th>Status</th>
+                        <th class="pe-4">Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?>
+                        <?php
+                        $isActive = in_array($user['active'], [true, 1, '1', 't', 'true'], true);
+                        $roles = [];
+                        if ((int) $user['total_listings'] > 0 || (int) $user['total_seller_orders'] > 0) {
+                            $roles[] = 'Seller';
+                        }
+                        if ((int) $user['total_buyer_orders'] > 0) {
+                            $roles[] = 'Buyer';
+                        }
+                        if ($roles === []) {
+                            $roles[] = 'Registered user';
+                        }
+                        ?>
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-semibold"><?php echo htmlspecialchars(trim($user['first_name'] . ' ' . $user['last_name'])); ?></div>
+                                <div class="text-muted small"><?php echo htmlspecialchars($user['email']); ?></div>
+                            </td>
+                            <td><?php echo htmlspecialchars($user['phone'] ?: 'Not added'); ?></td>
+                            <td>
+                                <div><?php echo htmlspecialchars(implode(' / ', $roles)); ?></div>
+                                <div class="text-muted small">
+                                    <?php echo (int) $user['total_listings']; ?> listing(s),
+                                    <?php echo (int) $user['total_buyer_orders']; ?> buyer order(s),
+                                    <?php echo (int) $user['total_seller_orders']; ?> seller order(s)
+                                </div>
+                            </td>
+                            <td>
+                                <?php if ($isActive): ?>
+                                    <span class="badge rounded-pill text-bg-success">Active</span>
+                                <?php else: ?>
+                                    <span class="badge rounded-pill text-bg-secondary">Inactive</span>
+                                <?php endif; ?>
+                            </td>
+                            <td class="pe-4"><?php echo htmlspecialchars(date('d M Y', strtotime($user['created_at']))); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
-</section>
+<?php endif; ?>
 
 <?php require __DIR__ . '/partials/footer.php'; ?>

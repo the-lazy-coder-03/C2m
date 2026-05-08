@@ -3,20 +3,20 @@ session_start();
 require_once __DIR__ . '/../config/config.php';
 $adminBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/auth.php')), '/');
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  header('Location: ' . $adminBasePath . '/login.php');
+  exit;
+}
+
 $username = trim($_POST['username'] ?? '');
 $pass  = $_POST['password'] ?? '';
 
-/**
- * DEMO ONLY:
- * Admin credentials are read from config/.env so they can be changed without editing PHP files.
- * Replace this with a database lookup and password_verify() when real admin accounts are added.
- */
-$demoUsername = config_get('ADMIN_USERNAME', 'admin');
-$demoPass  = config_get('ADMIN_PASSWORD', 'Admin@123');
+$adminUsername = (string) config_get('ADMIN_USERNAME', '');
+$adminPassword = (string) config_get('ADMIN_PASSWORD', '');
 
-if ($username === $demoUsername && $pass === $demoPass) {
+if ($adminUsername !== '' && $adminPassword !== '' && hash_equals($adminUsername, $username) && hash_equals($adminPassword, $pass)) {
   $_SESSION['admin_id'] = 1;
-  $_SESSION['admin_name'] = $demoUsername;
+  $_SESSION['admin_name'] = $adminUsername;
   header('Location: ' . $adminBasePath . '/dashboard.php');
   exit;
 }

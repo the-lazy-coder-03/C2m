@@ -58,4 +58,20 @@
             sidebar.classList.toggle('active');
         });
     }
+
+    document.querySelectorAll('[data-password-toggle]').forEach(function (button) {
+        var input = button.closest('.password-toggle-wrap').querySelector('[data-password-input]');
+
+        if (!input) {
+            return;
+        }
+
+        button.addEventListener('click', function () {
+            var shouldShow = input.type === 'password';
+
+            input.type = shouldShow ? 'text' : 'password';
+            button.textContent = shouldShow ? 'Hide' : 'Show';
+            button.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+        });
+    });
 })();

@@ -37,31 +37,24 @@ $active = $active ?? 'dashboard';
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#userSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link text-white dropdown-toggle">
+                    <a href="users.php" class="nav-link text-white <?php echo $active === 'users' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-people me-2"></i> Users
                     </a>
-                    <ul class="collapse list-unstyled ps-4 <?php echo $active === 'users' ? 'show' : ''; ?>" id="userSubmenu">
-                        <li><a href="users.php" class="nav-link text-white-50">All Users</a></li>
-                        <li><a href="#" class="nav-link text-white-50">Add User</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#orderSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link text-white dropdown-toggle">
+                    <a href="orders.php" class="nav-link text-white <?php echo $active === 'orders' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-cart me-2"></i> Orders
                     </a>
-                    <ul class="collapse list-unstyled ps-4 <?php echo $active === 'orders' ? 'show' : ''; ?>" id="orderSubmenu">
-                        <li><a href="orders.php" class="nav-link text-white-50">All Orders</a></li>
-                        <li><a href="#" class="nav-link text-white-50">Pending</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="#productSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="nav-link text-white dropdown-toggle">
-                        <i class="bi bi-box-seam me-2"></i> Products
+                    <a href="products.php" class="nav-link text-white <?php echo $active === 'products' ? 'active bg-primary rounded' : ''; ?>">
+                        <i class="bi bi-box-seam me-2"></i> Listings
                     </a>
-                    <ul class="collapse list-unstyled ps-4 <?php echo $active === 'products' ? 'show' : ''; ?>" id="productSubmenu">
-                        <li><a href="products.php" class="nav-link text-white-50">All Products</a></li>
-                        <li><a href="#" class="nav-link text-white-50">Categories</a></li>
-                    </ul>
+                </li>
+                <li class="nav-item mb-1">
+                    <a href="products.php?status=sold" class="nav-link text-white <?php echo $active === 'sold_products' ? 'active bg-primary rounded' : ''; ?>">
+                        <i class="bi bi-bag-check me-2"></i> Sold Items
+                    </a>
                 </li>
                 <li class="nav-item mb-1">
                     <a href="settings.php" class="nav-link text-white <?php echo $active === 'settings' ? 'active bg-primary rounded' : ''; ?>">

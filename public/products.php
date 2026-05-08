@@ -1,9 +1,13 @@
 <?php
+require_once __DIR__ . '/../app/helpers/session_helper.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
+startUserSession();
+
 $products = [];
 $error = '';
+$flash = $_SESSION['checkout_flash'] ?? ($_SESSION['cart_flash'] ?? null);
 $requestedCategory = is_string($_GET['category'] ?? null) ? trim($_GET['category']) : '';
 $categoryAliases = [
     'electronics' => 'Electronics',
@@ -19,6 +23,7 @@ $selectedCategory = $requestedCategory !== ''
     ? ($categoryAliases[strtolower($requestedCategory)] ?? $requestedCategory)
     : '';
 $pageTitle = $selectedCategory !== '' ? $selectedCategory . ' Listings' : 'Browse Items';
+unset($_SESSION['checkout_flash'], $_SESSION['cart_flash']);
 
 try {
     $pdo = getDbConnection();
@@ -90,6 +95,12 @@ try {
                 <a class="btn btn-primary" href="sell_product.php">Create Listing</a>
             </div>
         </div>
+
+        <?php if ($flash): ?>
+            <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+                <?php echo htmlspecialchars($flash['message']); ?>
+            </div>
+        <?php endif; ?>
 
         <?php if ($error !== ''): ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>

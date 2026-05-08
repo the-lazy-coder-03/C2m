@@ -1,7 +1,9 @@
 <?php
 require_once __DIR__ . '/../../app/helpers/jwt_helper.php';
+require_once __DIR__ . '/../../app/helpers/cart_helper.php';
 
 $navUser = current_user_from_jwt();
+$cartCount = $navUser ? cart_item_count() : 0;
 ?>
 <nav class="navbar navbar-expand-lg market-nav">
     <div class="container">
@@ -11,6 +13,7 @@ $navUser = current_user_from_jwt();
             <a class="btn btn-outline-primary btn-sm" href="products.php">Browse Items</a>
             <a class="btn btn-success btn-sm" href="sell_product.php">Sell Item</a>
             <?php if ($navUser): ?>
+                <a class="btn btn-outline-success btn-sm" href="cart.php">Cart (<?php echo $cartCount; ?>)</a>
                 <a class="btn btn-outline-secondary btn-sm" href="account.php">Account</a>
                 <a class="btn btn-outline-secondary btn-sm" href="my_listings.php">My Listings</a>
                 <a class="btn btn-outline-danger btn-sm" href="logout.php">Logout</a>
