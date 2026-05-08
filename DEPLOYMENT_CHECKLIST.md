@@ -73,7 +73,7 @@ Do not commit `config/.env`.
 
 ## Vercel Caveats
 
-Vercel does not run normal PHP apps by default. This project uses the community `vercel-php` runtime.
+Vercel does not run normal PHP apps by default. This project uses the community `vercel-php@0.7.4` runtime.
 
 This app is still better suited to EC2, Apache, Nginx, or another traditional PHP host because it uses:
 
