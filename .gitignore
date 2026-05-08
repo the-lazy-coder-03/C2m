@@ -1,4 +1,7 @@
 .DS_Store
+.env
 config/.env
+vendor/
+node_modules/
 public/uploads/products/*
 !public/uploads/products/.gitkeep
