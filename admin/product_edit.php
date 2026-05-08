@@ -71,6 +71,14 @@ if (!$productId) {
             }
 
             if ($errors === []) {
+                if ($formData['status'] === 'active') {
+                    $formData['active'] = true;
+
+                    if ((int) $formData['quantity'] < 1) {
+                        $formData['quantity'] = '1';
+                    }
+                }
+
                 $updateStmt = $pdo->prepare(
                     'UPDATE products
                      SET category_id = :category_id,
@@ -205,7 +213,7 @@ require __DIR__ . '/partials/header.php';
 
                         <div class="col-md-6">
                             <label class="form-label" for="status">Status</label>
-                            <select class="form-select" id="status" name="status" required>
+                            <select class="form-select" id="status" name="status" data-role="listing-status" required>
                                 <?php foreach (['active', 'reserved', 'sold', 'inactive'] as $status): ?>
                                     <option value="<?php echo $status; ?>" <?php echo $product['status'] === $status ? 'selected' : ''; ?>>
                                         <?php echo htmlspecialchars(ucfirst($status)); ?>
@@ -231,7 +239,7 @@ require __DIR__ . '/partials/header.php';
 
                         <div class="col-md-4">
                             <label class="form-label" for="quantity">Quantity</label>
-                            <input class="form-control" id="quantity" name="quantity" type="number" min="0" value="<?php echo (int) $product['quantity']; ?>" required>
+                            <input class="form-control" id="quantity" name="quantity" type="number" min="0" value="<?php echo (int) $product['quantity']; ?>" data-role="listing-quantity" required>
                         </div>
 
                         <div class="col-md-4">
@@ -252,9 +260,10 @@ require __DIR__ . '/partials/header.php';
 
                         <div class="col-12">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" id="active" name="active" type="checkbox" <?php echo $isProductActive ? 'checked' : ''; ?>>
+                                <input class="form-check-input" id="active" name="active" type="checkbox" data-role="listing-active" <?php echo $isProductActive ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="active">Visible on public marketplace</label>
                             </div>
+                            <div class="form-text">Active listings are automatically made visible and need at least one item in stock.</div>
                         </div>
                     </div>
                 </div>

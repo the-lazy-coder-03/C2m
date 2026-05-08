@@ -74,4 +74,22 @@
             button.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
         });
     });
+
+    var listingStatus = document.querySelector('[data-role="listing-status"]');
+    var listingQuantity = document.querySelector('[data-role="listing-quantity"]');
+    var listingActive = document.querySelector('[data-role="listing-active"]');
+
+    if (listingStatus && listingQuantity && listingActive) {
+        listingStatus.addEventListener('change', function () {
+            if (listingStatus.value !== 'active') {
+                return;
+            }
+
+            listingActive.checked = true;
+
+            if (Number(listingQuantity.value) < 1) {
+                listingQuantity.value = '1';
+            }
+        });
+    }
 })();

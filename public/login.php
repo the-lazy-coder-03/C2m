@@ -38,7 +38,7 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
 
                 <form class="market-card bg-white p-4" action="login_process.php" method="POST" novalidate>
                     <div class="mb-3">
-                        <label class="form-label" for="login">Email address or admin username</label>
+                        <label class="form-label" for="login">Email address</label>
                         <input class="form-control" id="login" name="login" type="text" value="<?php echo htmlspecialchars($old['login'] ?? ''); ?>" required>
                     </div>
 

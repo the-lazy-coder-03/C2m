@@ -83,16 +83,14 @@ try {
                 <p class="text-secondary mb-0">
                     <?php if ($selectedCategory !== ''): ?>
                         Showing active listings under <?php echo htmlspecialchars($selectedCategory); ?>.
-                    <?php else: ?>
-                        Product cards use the primary image stored in PostgreSQL.
                     <?php endif; ?>
                 </p>
             </div>
             <div class="d-flex flex-wrap gap-2">
                 <?php if ($selectedCategory !== ''): ?>
-                    <a class="btn btn-outline-secondary" href="products.php">All Listings</a>
+                    <a class="btn btn-market-outline btn-animated" href="products.php">All Listings</a>
                 <?php endif; ?>
-                <a class="btn btn-primary" href="sell_product.php">Create Listing</a>
+                <a class="btn btn-market-primary btn-animated" href="sell_product.php">Create Listing</a>
             </div>
         </div>
 
@@ -128,7 +126,7 @@ try {
                                 <h2 class="h5 card-title"><?php echo htmlspecialchars($product['title']); ?></h2>
                                 <p class="fw-bold text-success mb-1">R<?php echo number_format((float) $product['price'], 2); ?></p>
                                 <p class="text-secondary small mb-3"><?php echo htmlspecialchars($product['location'] ?: 'Location not listed'); ?></p>
-                                <a class="btn btn-outline-primary w-100" href="product.php?id=<?php echo (int) $product['product_id']; ?>">View Item</a>
+                                <a class="btn btn-market-outline btn-animated w-100" href="product.php?id=<?php echo (int) $product['product_id']; ?>">View Item</a>
                             </div>
                         </article>
                     </div>

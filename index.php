@@ -9,9 +9,34 @@ if (session_status() === PHP_SESSION_NONE) {
 $isAdminLoggedIn = isset($_SESSION['admin_id']);
 $featuredProducts = [];
 $featuredProductsError = '';
+$marketStats = [
+    'active_listings' => 0,
+    'active_sellers' => 0,
+];
+
+if (!function_exists('format_home_stat')) {
+    function format_home_stat(int $value): string
+    {
+        return number_format($value);
+    }
+}
 
 try {
     $pdo = getDbConnection();
+    $statsStmt = $pdo->query(
+        "SELECT
+            (SELECT COUNT(*) FROM products WHERE active = TRUE AND status = 'active') AS active_listings,
+            (
+                SELECT COUNT(DISTINCT p.seller_id)
+                FROM products p
+                INNER JOIN users u ON u.user_id = p.seller_id
+                WHERE p.active = TRUE
+                  AND p.status = 'active'
+                  AND u.active = TRUE
+            ) AS active_sellers"
+    );
+    $marketStats = array_merge($marketStats, $statsStmt->fetch() ?: []);
+
     $stmt = $pdo->prepare(
         'SELECT
             p.product_id,
@@ -97,12 +122,12 @@ try {
                             <h2>Fast local deals with safer buyer confidence.</h2>
                             <div class="hero-stats">
                                 <div>
-                                    <strong>12k+</strong>
-                                    <span>Monthly listings</span>
+                                    <strong><?php echo format_home_stat((int) $marketStats['active_listings']); ?></strong>
+                                    <span>Active listings</span>
                                 </div>
                                 <div>
-                                    <strong>2.4k</strong>
-                                    <span>Verified sellers</span>
+                                    <strong><?php echo format_home_stat((int) $marketStats['active_sellers']); ?></strong>
+                                    <span>Active sellers</span>
                                 </div>
                             </div>
                         </div>

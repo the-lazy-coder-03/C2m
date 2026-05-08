@@ -38,6 +38,31 @@ The database must not store paths like:
 /var/www/project/public/uploads/products/image.jpg
 ```
 
+When S3 storage is enabled, the database still stores the same relative path. The app turns that path into an S3 URL when it renders product images.
+
+## S3 Product Image Storage
+
+To store new product photos in S3, set `PRODUCT_IMAGE_S3_URL` in `config/.env` to your bucket URL:
+
+```text
+PRODUCT_IMAGE_S3_URL=https://your-bucket.s3.af-south-1.amazonaws.com
+PRODUCT_IMAGE_S3_REGION=af-south-1
+PRODUCT_IMAGE_S3_URL_EXPIRES=3600
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+AWS_SESSION_TOKEN=
+```
+
+You can also paste a URL that already points at the product upload folder:
+
+```text
+PRODUCT_IMAGE_S3_URL=https://your-bucket.s3.af-south-1.amazonaws.com/uploads/products
+```
+
+The app uploads objects using keys like `uploads/products/product_25_abc123.webp`. Your bucket or prefix must allow `s3:PutObject` for uploads, `s3:DeleteObject` for listing cleanup, and `s3:GetObject` for private signed image URLs. `PRODUCT_IMAGE_S3_URL_EXPIRES` controls how long each generated browser image URL remains valid, in seconds.
+
+Leave `PRODUCT_IMAGE_S3_URL` blank to keep using local filesystem storage in `public/uploads/products/`.
+
 ## Files Added
 
 - `config/database.php`
@@ -64,6 +89,12 @@ PUBLIC_WEB_BASE=/public
 PRODUCT_UPLOAD_RELATIVE_DIR=uploads/products
 PRODUCT_IMAGE_MAX_BYTES=10485760
 PRODUCT_IMAGE_MAX_COUNT=8
+PRODUCT_IMAGE_S3_URL=
+PRODUCT_IMAGE_S3_REGION=
+PRODUCT_IMAGE_S3_URL_EXPIRES=3600
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_SESSION_TOKEN=
 ```
 
 Start the server from the project root:

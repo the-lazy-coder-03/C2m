@@ -260,7 +260,7 @@ main {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.8rem;
+    margin-bottom: 1rem;
 }
 
 .btn-market-primary,
@@ -333,12 +333,17 @@ main {
 }
 
 .hero-showcase {
+    --hero-card-gap: 3rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hero-card-gap);
+    align-content: center;
     position: relative;
     min-height: 34rem;
 }
 
 .hero-card {
-    position: absolute;
+    position: relative;
     border-radius: var(--lm-radius);
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(13, 110, 253, 0.08);
@@ -346,9 +351,8 @@ main {
 }
 
 .hero-card-primary {
-    top: 1.2rem;
-    right: 0;
-    width: min(100%, 31rem);
+    grid-column: 1 / -1;
+    width: 100%;
     padding: 2rem;
     background: linear-gradient(145deg, rgba(13, 110, 253, 0.98), rgba(25, 135, 84, 0.92));
     color: #fff;
@@ -395,18 +399,16 @@ main {
 }
 
 .hero-card-floating {
-    width: min(18rem, 88%);
+    width: 100%;
     padding: 1.25rem;
 }
 
 .hero-card-secondary {
-    left: 0;
-    bottom: 5.5rem;
+    grid-column: 1;
 }
 
 .hero-card-tertiary {
-    right: 2rem;
-    bottom: 0;
+    grid-column: 2;
 }
 
 .mini-pill {
