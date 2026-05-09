@@ -21,5 +21,6 @@ if ($adminUsername !== '' && $adminPassword !== '' && hash_equals($adminUsername
   exit;
 }
 
+
 header('Location: ' . $adminBasePath . '/login.php?err=1');
 exit;
