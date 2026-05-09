@@ -14,6 +14,11 @@ if (!isset($_SESSION['admin_id'])) {
 $pageTitle = 'Edit Listing';
 $active = 'products';
 $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+
+if (!$productId && preg_match('#/edit-product/(\d+)#', parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', $matches)) {
+    $productId = (int) $matches[1];
+}
+
 $product = null;
 $categories = [];
 $images = [];

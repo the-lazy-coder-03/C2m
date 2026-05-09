@@ -15,6 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $productId = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
 $productId = $productId ?: filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+if (!$productId && preg_match('#/delete-product/(\d+)#', parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', $matches)) {
+    $productId = (int) $matches[1];
+}
+
 $csrfToken = $_POST['csrf_token'] ?? '';
 
 if (!$productId || !is_string($csrfToken) || !isValidCsrfToken('delete_listing', $csrfToken)) {

@@ -12,6 +12,11 @@ $images = [];
 $error = '';
 $flash = $_SESSION['cart_flash'] ?? null;
 $productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
+
+if (!$productId && preg_match('#/product/(\d+)#', parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH) ?: '', $matches)) {
+    $productId = (int) $matches[1];
+}
+
 $currentUser = current_user_from_jwt();
 $canManageProduct = false;
 $canAddToCart = false;
