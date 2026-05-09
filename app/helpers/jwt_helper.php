@@ -172,7 +172,7 @@ if (!function_exists('current_user_from_jwt')) {
 }
 
 if (!function_exists('require_user_from_jwt')) {
-    function require_user_from_jwt(string $loginPath = 'login.php'): array
+    function require_user_from_jwt(string $loginPath = '/login'): array
     {
         $user = current_user_from_jwt();
 

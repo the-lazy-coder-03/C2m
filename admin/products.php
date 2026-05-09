@@ -114,14 +114,14 @@ $statusClasses = [
         <h1 class="h2 mb-1"><?php echo htmlspecialchars($pageTitle); ?></h1>
         <p class="text-muted mb-0">Edit seller listings, prices, status, and visibility.</p>
     </div>
-    <a class="btn btn-outline-primary btn-sm" href="../public/products.php" target="_blank">
+    <a class="btn btn-outline-primary btn-sm" href="/products" target="_blank">
         <i class="bi bi-box-arrow-up-right me-1"></i> View Public Listings
     </a>
 </div>
 
 <div class="d-flex flex-wrap gap-2 mb-4">
     <?php foreach ($statusFilters as $status => $label): ?>
-        <?php $href = $status === 'all' ? 'products.php' : 'products.php?status=' . urlencode($status); ?>
+        <?php $href = $status === 'all' ? '/admin/products' : '/admin/products?status=' . urlencode($status); ?>
         <a class="btn btn-sm <?php echo $selectedStatus === $status ? 'btn-primary' : 'btn-outline-primary'; ?>" href="<?php echo htmlspecialchars($href); ?>">
             <?php echo htmlspecialchars($label); ?>
             <span class="badge <?php echo $selectedStatus === $status ? 'text-bg-light text-primary' : 'text-bg-primary'; ?> ms-1">
@@ -206,11 +206,11 @@ $statusClasses = [
                             <td class="pe-4 text-end">
                                 <div class="btn-group btn-group-sm">
                                     <?php if ($isPubliclyVisible): ?>
-                                        <a class="btn btn-outline-secondary" href="../public/product.php?id=<?php echo (int) $product['product_id']; ?>" target="_blank">View</a>
+                                        <a class="btn btn-outline-secondary" href="/product/<?php echo (int) $product['product_id']; ?>" target="_blank">View</a>
                                     <?php else: ?>
                                         <button class="btn btn-outline-secondary" type="button" disabled>Hidden</button>
                                     <?php endif; ?>
-                                    <a class="btn btn-primary" href="product_edit.php?id=<?php echo (int) $product['product_id']; ?>">Edit</a>
+                                    <a class="btn btn-primary" href="/edit-product/<?php echo (int) $product['product_id']; ?>">Edit</a>
                                 </div>
                             </td>
                         </tr>

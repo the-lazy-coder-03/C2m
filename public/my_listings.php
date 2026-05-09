@@ -51,7 +51,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Listings | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -63,7 +63,7 @@ try {
                 <h1 class="fw-bold mb-1">My listings</h1>
                 <p class="text-secondary mb-0">Manage the products you have listed on LocalMarket.</p>
             </div>
-            <a class="btn btn-primary" href="sell_product.php">Create Listing</a>
+            <a class="btn btn-primary" href="/create-product">Create Listing</a>
         </div>
 
         <?php if ($error !== ''): ?>
@@ -101,12 +101,12 @@ try {
                                         <?php echo htmlspecialchars($listing['location'] ?: 'Location not listed'); ?>
                                     </p>
                                     <div class="d-grid gap-2">
-                                        <a class="btn btn-outline-primary" href="product.php?id=<?php echo (int) $listing['product_id']; ?>">View Listing</a>
+                                        <a class="btn btn-outline-primary" href="/product/<?php echo (int) $listing['product_id']; ?>">View Listing</a>
                                         <?php if ($isSold): ?>
                                             <button class="btn btn-outline-secondary" type="button" disabled>Sold - Kept for Records</button>
                                         <?php else: ?>
                                             <form
-                                                action="delete_listing.php"
+                                                action="/delete-listing"
                                                 method="POST"
                                                 onsubmit="return confirm('Delete this listing permanently?');"
                                             >

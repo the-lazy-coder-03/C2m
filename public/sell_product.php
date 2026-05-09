@@ -90,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
             $savedImagePaths = store_product_images($pdo, $productId, $_FILES['product_images'] ?? []);
 
             $pdo->commit();
-            header('Location: product.php?id=' . $productId);
+            header('Location: /product/' . $productId);
             exit;
         } catch (Throwable $exception) {
             if ($pdo->inTransaction()) {
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sell Item | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -214,6 +214,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
         </div>
     </main>
 </div>
-<script src="assets/js/marketplace.js"></script>
+<script src="/assets/js/marketplace.js"></script>
 </body>
 </html>

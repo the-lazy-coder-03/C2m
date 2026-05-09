@@ -5,7 +5,7 @@ require_once __DIR__ . '/../app/helpers/cart_helper.php';
 startUserSession();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: cart.php');
+    header('Location: /cart');
     exit;
 }
 
@@ -17,7 +17,7 @@ if (!$productId || !is_string($csrfToken) || !isValidCsrfToken('cart_action', $c
         'type' => 'danger',
         'message' => 'The remove request was not valid. Please try again.',
     ];
-    header('Location: cart.php');
+    header('Location: /cart');
     exit;
 }
 
@@ -28,5 +28,5 @@ $_SESSION['cart_flash'] = [
     'message' => 'Item removed from your cart.',
 ];
 
-header('Location: cart.php');
+header('Location: /cart');
 exit;

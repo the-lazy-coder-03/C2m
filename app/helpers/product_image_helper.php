@@ -31,7 +31,7 @@ if (!function_exists('public_asset_url')) {
             return product_image_s3_browser_url($cleanPath);
         }
 
-        $base = trim((string) config_get('PUBLIC_WEB_BASE', '/public'), '/');
+        $base = trim((string) config_get('PUBLIC_WEB_BASE', ''), '/');
 
         return '/' . ($base === '' ? $cleanPath : $base . '/' . $cleanPath);
     }

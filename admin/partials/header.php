@@ -17,7 +17,7 @@ $active = $active ?? 'dashboard';
     <title><?php echo htmlspecialchars($pageTitle); ?> - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="assets/css/admin.css" />
+    <link rel="stylesheet" href="/assets/admin/css/admin.css" />
 </head>
 <body class="bg-light">
 
@@ -26,38 +26,38 @@ $active = $active ?? 'dashboard';
     <nav id="sidebar" class="bg-dark text-white">
         <div class="p-4 pt-5">
             <div class="brand d-flex align-items-center mb-4">
-                <img class="brand-logo me-2" src="assets/images/logo.svg" alt="Admin logo" style="width: 40px;" />
+                <img class="brand-logo me-2" src="/assets/admin/images/logo.svg" alt="Admin logo" style="width: 40px;" />
                 <h4 class="mb-0 text-white">Admin Panel</h4>
             </div>
             
             <ul class="list-unstyled components mb-5 nav flex-column">
                 <li class="nav-item mb-1">
-                    <a href="dashboard.php" class="nav-link text-white <?php echo $active === 'dashboard' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/dashboard" class="nav-link text-white <?php echo $active === 'dashboard' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-speedometer2 me-2"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="users.php" class="nav-link text-white <?php echo $active === 'users' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/users" class="nav-link text-white <?php echo $active === 'users' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-people me-2"></i> Users
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="orders.php" class="nav-link text-white <?php echo $active === 'orders' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/orders" class="nav-link text-white <?php echo $active === 'orders' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-cart me-2"></i> Orders
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="products.php" class="nav-link text-white <?php echo $active === 'products' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/products" class="nav-link text-white <?php echo $active === 'products' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-box-seam me-2"></i> Listings
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="products.php?status=sold" class="nav-link text-white <?php echo $active === 'sold_products' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/products?status=sold" class="nav-link text-white <?php echo $active === 'sold_products' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-bag-check me-2"></i> Sold Items
                     </a>
                 </li>
                 <li class="nav-item mb-1">
-                    <a href="settings.php" class="nav-link text-white <?php echo $active === 'settings' ? 'active bg-primary rounded' : ''; ?>">
+                    <a href="/admin/settings" class="nav-link text-white <?php echo $active === 'settings' ? 'active bg-primary rounded' : ''; ?>">
                         <i class="bi bi-gear me-2"></i> Settings
                     </a>
                 </li>

@@ -9,11 +9,12 @@ startUserSession();
 $currentUser = require_user_from_jwt();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: my_listings.php');
+    header('Location: /my-listings');
     exit;
 }
 
 $productId = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
+$productId = $productId ?: filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $csrfToken = $_POST['csrf_token'] ?? '';
 
 if (!$productId || !is_string($csrfToken) || !isValidCsrfToken('delete_listing', $csrfToken)) {
@@ -21,7 +22,7 @@ if (!$productId || !is_string($csrfToken) || !isValidCsrfToken('delete_listing',
         'type' => 'danger',
         'message' => 'The delete request was not valid. Please try again.',
     ];
-    header('Location: my_listings.php');
+    header('Location: /my-listings');
     exit;
 }
 
@@ -51,7 +52,7 @@ try {
             'type' => 'danger',
             'message' => 'Listing was not found, or you do not have permission to delete it.',
         ];
-        header('Location: my_listings.php');
+        header('Location: /my-listings');
         exit;
     }
 
@@ -61,7 +62,7 @@ try {
             'type' => 'warning',
             'message' => 'Sold listings are kept for order records and cannot be deleted.',
         ];
-        header('Location: my_listings.php');
+        header('Location: /my-listings');
         exit;
     }
 
@@ -101,5 +102,5 @@ try {
     ];
 }
 
-header('Location: my_listings.php');
+header('Location: /my-listings');
 exit;

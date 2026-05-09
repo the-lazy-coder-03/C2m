@@ -9,7 +9,7 @@ $isAdminLoggedIn = $isAdminLoggedIn ?? (session_status() === PHP_SESSION_ACTIVE 
 <nav class="market-navbar" id="top">
     <div class="container">
         <div class="nav-shell">
-            <a href="index.php" class="brand-mark" aria-label="LocalMarket home">
+            <a href="/" class="brand-mark" aria-label="LocalMarket home">
                 <span class="brand-icon"><i class="bi bi-shop-window"></i></span>
                 <span>LocalMarket</span>
             </a>
@@ -27,20 +27,20 @@ $isAdminLoggedIn = $isAdminLoggedIn ?? (session_status() === PHP_SESSION_ACTIVE 
             </button>
 
             <div class="nav-links" data-nav-menu>
-                <a href="index.php#home">Home</a>
-                <a href="public/products.php">Browse Items</a>
-                <a href="public/sell_product.php">Sell Item</a>
+                <a href="/#home">Home</a>
+                <a href="/products">Browse Items</a>
+                <a href="/create-product">Sell Item</a>
                 <?php if ($isAdminLoggedIn): ?>
-                    <a href="admin/dashboard.php" class="nav-admin">Admin Panel</a>
+                    <a href="/admin/dashboard" class="nav-admin">Admin Panel</a>
                 <?php endif; ?>
                 <?php if ($navUser): ?>
-                    <a href="public/cart.php">Cart (<?php echo $cartCount; ?>)</a>
-                    <a href="public/account.php">Account</a>
-                    <a href="public/my_listings.php">My Listings</a>
-                    <a href="public/logout.php" class="nav-register">Logout</a>
+                    <a href="/cart">Cart (<?php echo $cartCount; ?>)</a>
+                    <a href="/account">Account</a>
+                    <a href="/my-listings">My Listings</a>
+                    <a href="/logout" class="nav-register">Logout</a>
                 <?php else: ?>
-                    <a href="public/login.php">Login</a>
-                    <a href="public/register.php" class="nav-register">Register</a>
+                    <a href="/login">Login</a>
+                    <a href="/register" class="nav-register">Register</a>
                 <?php endif; ?>
             </div>
         </div>

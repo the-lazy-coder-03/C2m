@@ -11,7 +11,7 @@ $product = null;
 $images = [];
 $error = '';
 $flash = $_SESSION['cart_flash'] ?? null;
-$productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
 $currentUser = current_user_from_jwt();
 $canManageProduct = false;
 $canAddToCart = false;
@@ -94,7 +94,7 @@ $mainImagePath = $images[0]['image_path'] ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo $product ? htmlspecialchars($product['title']) : 'Product'; ?> | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -109,7 +109,7 @@ $mainImagePath = $images[0]['image_path'] ?? null;
 
         <?php if ($error !== ''): ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
-            <a class="btn btn-outline-primary" href="products.php">Back to products</a>
+            <a class="btn btn-outline-primary" href="/products">Back to products</a>
         <?php else: ?>
             <div class="row g-5">
                 <div class="col-lg-7">
@@ -153,27 +153,27 @@ $mainImagePath = $images[0]['image_path'] ?? null;
                         <?php if ($canAddToCart): ?>
                             <?php $isInCart = in_array((int) $product['product_id'], $cartIds, true); ?>
                             <?php if ($isInCart): ?>
-                                <a class="btn btn-success w-100 mt-3" href="cart.php">Already in Cart - View Cart</a>
+                                <a class="btn btn-success w-100 mt-3" href="/cart">Already in Cart - View Cart</a>
                             <?php else: ?>
-                                <form class="mt-3" action="add_to_cart.php" method="POST">
+                                <form class="mt-3" action="/cart/add" method="POST">
                                     <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>">
                                     <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($cartToken); ?>">
                                     <button class="btn btn-success w-100" type="submit">Add to Cart</button>
                                 </form>
                             <?php endif; ?>
                         <?php elseif (!$currentUser && $isProductAvailable): ?>
-                            <a class="btn btn-success w-100 mt-3" href="login.php">Login to Add to Cart</a>
+                            <a class="btn btn-success w-100 mt-3" href="/login">Login to Add to Cart</a>
                         <?php elseif ($canManageProduct): ?>
                             <div class="alert alert-info mt-3 mb-0">This is your listing, so the cart button is hidden.</div>
                         <?php else: ?>
                             <div class="alert alert-warning mt-3 mb-0">This listing is not available for purchase.</div>
                         <?php endif; ?>
 
-                        <a class="btn btn-outline-primary w-100 mt-2" href="products.php">Back to Browse</a>
+                        <a class="btn btn-outline-primary w-100 mt-2" href="/products">Back to Browse</a>
                         <?php if ($canManageProduct && $product['status'] !== 'sold'): ?>
                             <form
                                 class="mt-2"
-                                action="delete_listing.php"
+                                action="/delete-listing"
                                 method="POST"
                                 onsubmit="return confirm('Delete this listing permanently?');"
                             >

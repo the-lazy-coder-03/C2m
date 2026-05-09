@@ -95,7 +95,7 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cart | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -107,7 +107,7 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
                 <h1 class="fw-bold mb-1">My Cart</h1>
                 <p class="text-secondary mb-0">Review your selected products before checkout.</p>
             </div>
-            <a class="btn btn-outline-primary" href="products.php">Continue Browsing</a>
+            <a class="btn btn-outline-primary" href="/products">Continue Browsing</a>
         </div>
 
         <?php if ($flash): ?>
@@ -122,7 +122,7 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
             <div class="market-card bg-white p-4 text-center">
                 <h2 class="h4 fw-bold">Your cart is empty</h2>
                 <p class="text-secondary">Add a product before starting checkout.</p>
-                <a class="btn btn-primary" href="products.php">Browse Items</a>
+                <a class="btn btn-primary" href="/products">Browse Items</a>
             </div>
         <?php else: ?>
             <?php if ($missingItemCount > 0): ?>
@@ -176,8 +176,8 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
                                         <?php endif; ?>
 
                                         <div class="d-flex flex-wrap gap-2 mt-3">
-                                            <a class="btn btn-sm btn-outline-primary" href="product.php?id=<?php echo (int) $item['product_id']; ?>">View Item</a>
-                                            <form action="remove_from_cart.php" method="POST">
+                                            <a class="btn btn-sm btn-outline-primary" href="/product/<?php echo (int) $item['product_id']; ?>">View Item</a>
+                                            <form action="/cart/remove" method="POST">
                                                 <input type="hidden" name="product_id" value="<?php echo (int) $item['product_id']; ?>">
                                                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($cartToken); ?>">
                                                 <button class="btn btn-sm btn-outline-danger" type="submit">Remove</button>
@@ -203,7 +203,7 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
                         </div>
 
                         <?php if ($canCheckout): ?>
-                            <a class="btn btn-success w-100 mt-4" href="checkout.php">Checkout</a>
+                            <a class="btn btn-success w-100 mt-4" href="/checkout">Checkout</a>
                         <?php else: ?>
                             <button class="btn btn-secondary w-100 mt-4" type="button" disabled>Fix Cart Before Checkout</button>
                             <p class="small text-secondary mt-2 mb-0">Remove unavailable or blocked items before paying.</p>

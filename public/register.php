@@ -14,7 +14,7 @@ unset($_SESSION['register_errors'], $_SESSION['register_old']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page auth-page">
@@ -36,7 +36,7 @@ unset($_SESSION['register_errors'], $_SESSION['register_old']);
                     </div>
                 <?php endif; ?>
 
-                <form class="market-card bg-white p-4" action="register_process.php" method="POST" novalidate>
+                <form class="market-card bg-white p-4" action="/register" method="POST" novalidate>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label" for="first_name">First name</label>
@@ -74,7 +74,7 @@ unset($_SESSION['register_errors'], $_SESSION['register_old']);
 
                     <p class="auth-switch text-center mb-0 mt-4">
                         Already have an account?
-                        <a href="login.php">Login</a>
+                        <a href="/login">Login</a>
                     </p>
                 </form>
             </div>

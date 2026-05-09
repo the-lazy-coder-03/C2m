@@ -70,7 +70,7 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo htmlspecialchars($pageTitle); ?> | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -88,9 +88,9 @@ try {
             </div>
             <div class="d-flex flex-wrap gap-2">
                 <?php if ($selectedCategory !== ''): ?>
-                    <a class="btn btn-market-outline btn-animated" href="products.php">All Listings</a>
+                    <a class="btn btn-market-outline btn-animated" href="/products">All Listings</a>
                 <?php endif; ?>
-                <a class="btn btn-market-primary btn-animated" href="sell_product.php">Create Listing</a>
+                <a class="btn btn-market-primary btn-animated" href="/create-product">Create Listing</a>
             </div>
         </div>
 
@@ -126,7 +126,7 @@ try {
                                 <h2 class="h5 card-title"><?php echo htmlspecialchars($product['title']); ?></h2>
                                 <p class="fw-bold text-success mb-1">R<?php echo number_format((float) $product['price'], 2); ?></p>
                                 <p class="text-secondary small mb-3"><?php echo htmlspecialchars($product['location'] ?: 'Location not listed'); ?></p>
-                                <a class="btn btn-market-outline btn-animated w-100" href="product.php?id=<?php echo (int) $product['product_id']; ?>">View Item</a>
+                                <a class="btn btn-market-outline btn-animated w-100" href="/product/<?php echo (int) $product['product_id']; ?>">View Item</a>
                             </div>
                         </article>
                     </div>

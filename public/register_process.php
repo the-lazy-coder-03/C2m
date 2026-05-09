@@ -6,7 +6,7 @@ require_once __DIR__ . '/../config/database.php';
 startUserSession();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: register.php');
+    header('Location: /register');
     exit;
 }
 
@@ -46,7 +46,7 @@ if ($errors !== []) {
         'email' => $email,
         'phone' => $phone,
     ];
-    header('Location: register.php');
+    header('Location: /register');
     exit;
 }
 
@@ -64,7 +64,7 @@ try {
             'email' => $email,
             'phone' => $phone,
         ];
-        header('Location: register.php');
+        header('Location: /register');
         exit;
     }
 
@@ -84,7 +84,7 @@ try {
     $userId = (int) $stmt->fetchColumn();
     issue_user_jwt($userId, $firstName, $email);
 
-    header('Location: products.php');
+    header('Location: /products');
     exit;
 } catch (Throwable $exception) {
     $_SESSION['register_errors'] = ['Registration failed: ' . $exception->getMessage()];
@@ -94,6 +94,6 @@ try {
         'email' => $email,
         'phone' => $phone,
     ];
-    header('Location: register.php');
+    header('Location: /register');
     exit;
 }

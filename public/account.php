@@ -37,7 +37,7 @@ try {
 
     if (!$account) {
         clear_user_jwt();
-        header('Location: login.php');
+        header('Location: /login');
         exit;
     }
 
@@ -213,7 +213,7 @@ if (!function_exists('render_order_table')) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Account | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -225,7 +225,7 @@ if (!function_exists('render_order_table')) {
                 <h1 class="fw-bold mb-1">My account</h1>
                 <p class="text-secondary mb-0">Track your account, purchases, sales, and active orders.</p>
             </div>
-            <a class="btn btn-primary" href="my_listings.php">View My Listings</a>
+            <a class="btn btn-primary" href="/my-listings">View My Listings</a>
         </div>
 
         <?php if ($error !== ''): ?>
@@ -251,7 +251,7 @@ if (!function_exists('render_order_table')) {
                                     <h2 class="h4 fw-bold mb-1">Account details</h2>
                                     <p class="text-secondary mb-0">Your profile and seller summary.</p>
                                 </div>
-                                <a class="btn btn-success" href="sell_product.php">Create New Listing</a>
+                                <a class="btn btn-success" href="/create-product">Create New Listing</a>
                             </div>
                             <div class="row g-4">
                                 <div class="col-xl-7">

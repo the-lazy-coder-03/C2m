@@ -76,7 +76,7 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <?php include 'includes/navbar.php'; ?>
@@ -93,8 +93,8 @@ try {
                     <h1 class="hero-title">Buy and Sell Anything Locally</h1>
                     <p class="hero-copy">South Africa's trusted C2C marketplace.</p>
                     <div class="hero-actions">
-                        <a href="public/products.php" class="btn btn-market-primary btn-lg btn-animated">Browse Items</a>
-                        <a href="public/sell_product.php" class="btn btn-market-outline btn-lg btn-animated">Start Selling</a>
+                        <a href="/products" class="btn btn-market-primary btn-lg btn-animated">Browse Items</a>
+                        <a href="/create-product" class="btn btn-market-outline btn-lg btn-animated">Start Selling</a>
                     </div>
 
                     <div class="hero-search-card">
@@ -155,37 +155,37 @@ try {
 
             <div class="row g-4">
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Electronics">
+                    <a class="feature-card" href="/products?category=Electronics">
                         <div class="feature-icon"><i class="bi bi-phone"></i></div>
                         <h3>Electronics</h3>
                     </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Clothing">
+                    <a class="feature-card" href="/products?category=Clothing">
                         <div class="feature-icon"><i class="bi bi-bag"></i></div>
                         <h3>Clothing</h3>
                     </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Vehicle">
+                    <a class="feature-card" href="/products?category=Vehicle">
                         <div class="feature-icon"><i class="bi bi-car-front"></i></div>
                         <h3>Vehicles</h3>
                     </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Furniture">
+                    <a class="feature-card" href="/products?category=Furniture">
                         <div class="feature-icon"><i class="bi bi-lamp"></i></div>
                         <h3>Furniture</h3>
                     </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Sport">
+                    <a class="feature-card" href="/products?category=Sport">
                         <div class="feature-icon"><i class="bi bi-bicycle"></i></div>
                         <h3>Sports</h3>
                     </a>
                 </div>
                 <div class="col-6 col-md-4 col-xl-2">
-                    <a class="feature-card" href="public/products.php?category=Other">
+                    <a class="feature-card" href="/products?category=Other">
                         <div class="feature-icon"><i class="bi bi-grid-3x3-gap"></i></div>
                         <h3>Other</h3>
                     </a>
@@ -208,7 +208,7 @@ try {
                 <div class="empty-listings-card">
                     <h3>No listings uploaded yet</h3>
                     <p>Be the first seller to add a product to LocalMarket.</p>
-                    <a href="public/sell_product.php" class="btn btn-market-primary btn-animated">Create First Listing</a>
+                    <a href="/create-product" class="btn btn-market-primary btn-animated">Create First Listing</a>
                 </div>
             <?php else: ?>
                 <div class="row g-4">
@@ -239,7 +239,7 @@ try {
                                     </div>
                                     <h3><?php echo htmlspecialchars($product['title']); ?></h3>
                                     <p class="product-price">R<?php echo number_format((float) $product['price'], 2); ?></p>
-                                    <a href="public/product.php?id=<?php echo (int) $product['product_id']; ?>" class="btn btn-market-outline btn-animated">View Item</a>
+                                    <a href="/product/<?php echo (int) $product['product_id']; ?>" class="btn btn-market-outline btn-animated">View Item</a>
                                 </div>
                             </article>
                         </div>
@@ -248,7 +248,7 @@ try {
             <?php endif; ?>
 
             <div class="text-center mt-5">
-                <a href="public/products.php" class="btn btn-market-primary btn-lg btn-animated">View All Listings</a>
+                <a href="/products" class="btn btn-market-primary btn-lg btn-animated">View All Listings</a>
             </div>
         </div>
     </section>
@@ -329,7 +329,7 @@ try {
                     <h2>Start selling today</h2>
                     <p>Create your free LocalMarket account and reach nearby buyers in minutes.</p>
                 </div>
-                <a href="public/register.php" class="btn btn-light btn-lg btn-animated cta-button">Create Free Account</a>
+                <a href="/register" class="btn btn-light btn-lg btn-animated cta-button">Create Free Account</a>
             </div>
         </div>
     </section>

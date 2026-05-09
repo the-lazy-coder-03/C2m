@@ -15,7 +15,7 @@ unset($_SESSION['checkout_success']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Order Complete | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -28,7 +28,7 @@ unset($_SESSION['checkout_success']);
                     <?php if (!$success): ?>
                         <h1 class="fw-bold">No recent checkout found</h1>
                         <p class="text-secondary">Browse products and add items to your cart to start a new order.</p>
-                        <a class="btn btn-primary" href="products.php">Browse Items</a>
+                        <a class="btn btn-primary" href="/products">Browse Items</a>
                     <?php else: ?>
                         <span class="checkout-success-icon">✓</span>
                         <h1 class="fw-bold mt-3">Payment successful</h1>
@@ -52,8 +52,8 @@ unset($_SESSION['checkout_success']);
                         </div>
 
                         <div class="d-flex flex-wrap justify-content-center gap-2">
-                            <a class="btn btn-primary" href="products.php">Continue Shopping</a>
-                            <a class="btn btn-outline-secondary" href="account.php">View Account</a>
+                            <a class="btn btn-primary" href="/products">Continue Shopping</a>
+                            <a class="btn btn-outline-secondary" href="/account">View Account</a>
                         </div>
                     <?php endif; ?>
                 </section>

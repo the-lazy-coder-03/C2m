@@ -13,7 +13,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 $pageTitle = 'Edit Listing';
 $active = 'products';
-$productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$productId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT) ?: filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
 $product = null;
 $categories = [];
 $images = [];
@@ -110,7 +110,7 @@ if (!$productId) {
                     'message' => 'Listing updated successfully.',
                 ];
 
-                header('Location: ' . $adminBasePath . '/products.php');
+                header('Location: /admin/products');
                 exit;
             }
         }
@@ -173,7 +173,7 @@ require __DIR__ . '/partials/header.php';
         <h1 class="h2 mb-1">Edit Listing</h1>
         <p class="text-muted mb-0">Update seller listing details as the admin.</p>
     </div>
-    <a class="btn btn-outline-secondary btn-sm" href="products.php">
+    <a class="btn btn-outline-secondary btn-sm" href="/admin/products">
         <i class="bi bi-arrow-left me-1"></i> Back to Listings
     </a>
 </div>
@@ -268,7 +268,7 @@ require __DIR__ . '/partials/header.php';
                     </div>
                 </div>
                 <div class="card-footer bg-white d-flex justify-content-end gap-2">
-                    <a class="btn btn-outline-secondary" href="products.php">Cancel</a>
+                    <a class="btn btn-outline-secondary" href="/admin/products">Cancel</a>
                     <button class="btn btn-primary" type="submit">Save Changes</button>
                 </div>
             </form>

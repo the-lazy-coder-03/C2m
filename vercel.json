@@ -1,17 +1,17 @@
 {
   "functions": {
     "api/*.php": {
-      "runtime": "vercel-php@0.7.4"
+      "runtime": "vercel-php@0.7.0"
     }
   },
   "routes": [
     {
       "src": "/css/(.*)",
-      "dest": "/css/$1"
+      "dest": "/public/css/$1"
     },
     {
       "src": "/js/(.*)",
-      "dest": "/js/$1"
+      "dest": "/public/js/$1"
     },
     {
       "src": "/assets/(.*)",
@@ -24,10 +24,6 @@
     {
       "src": "/public/uploads/(.*)",
       "dest": "/public/uploads/$1"
-    },
-    {
-      "src": "/admin/assets/(.*)",
-      "dest": "/admin/assets/$1"
     },
     {
       "src": "/(.*)",

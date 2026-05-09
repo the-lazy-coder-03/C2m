@@ -14,14 +14,14 @@ $err = $_GET['err'] ?? '';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Login</title>
-    <link rel="stylesheet" href="assets/css/admin.css" />
+    <link rel="stylesheet" href="/assets/admin/css/admin.css" />
 </head>
 <body>
 <div class="auth-wrap">
     <div class="auth-card">
         <div class="head">
             <div class="brand">
-                <img class="brand-logo" src="assets/images/logo.svg" alt="Admin logo" />
+                <img class="brand-logo" src="/assets/admin/images/logo.svg" alt="Admin logo" />
                 <div>
                     <h1>Admin Panel</h1>
                     <p>Sign in to manage the platform</p>
@@ -34,7 +34,7 @@ $err = $_GET['err'] ?? '';
             <div class="error">Invalid username or password.</div>
         <?php endif; ?>
 
-        <form method="POST" action="auth.php" autocomplete="off">
+        <form method="POST" action="/admin/auth" autocomplete="off">
             <div class="field">
                 <label for="username">Username</label>
                 <input id="username" name="username" type="text" placeholder="Enter admin username" required />
@@ -60,6 +60,6 @@ $err = $_GET['err'] ?? '';
     </div>
 </div>
 
-<script src="assets/js/admin.js"></script>
+<script src="/assets/admin/js/admin.js"></script>
 </body>
 </html>

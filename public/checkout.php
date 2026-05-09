@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $pageError === '') {
                 'payment_method' => $paymentMethods[$formData['payment_method']],
             ];
 
-            header('Location: checkout_success.php');
+            header('Location: /checkout-success');
             exit;
         } catch (Throwable $exception) {
             if ($pdo->inTransaction()) {
@@ -343,7 +343,7 @@ $canCheckout = $cartIds !== [] && $items !== [] && !$hasBlockedItems && count($c
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page">
@@ -355,14 +355,14 @@ $canCheckout = $cartIds !== [] && $items !== [] && !$hasBlockedItems && count($c
                 <h1 class="fw-bold mb-1">Checkout</h1>
                 <p class="text-secondary mb-0">Enter shipping details and choose a payment method.</p>
             </div>
-            <a class="btn btn-outline-primary" href="cart.php">Back to Cart</a>
+            <a class="btn btn-outline-primary" href="/cart">Back to Cart</a>
         </div>
 
         <?php if ($pageError !== ''): ?>
             <div class="alert alert-danger"><?php echo htmlspecialchars($pageError); ?></div>
         <?php elseif (!$canCheckout): ?>
             <div class="alert alert-warning">Your cart has unavailable items. Please return to your cart before checkout.</div>
-            <a class="btn btn-primary" href="cart.php">Review Cart</a>
+            <a class="btn btn-primary" href="/cart">Review Cart</a>
         <?php else: ?>
             <?php if ($errors !== []): ?>
                 <div class="alert alert-danger">

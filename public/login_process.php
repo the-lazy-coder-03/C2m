@@ -6,7 +6,7 @@ require_once __DIR__ . '/../config/database.php';
 startUserSession();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 
@@ -28,21 +28,21 @@ if ($password === '') {
 if ($errors !== []) {
     $_SESSION['login_errors'] = $errors;
     $_SESSION['login_old'] = ['login' => $login];
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 
 if ($adminUsername !== '' && $adminPassword !== '' && hash_equals($adminUsername, $login) && hash_equals($adminPassword, $password)) {
     $_SESSION['admin_id'] = 1;
     $_SESSION['admin_name'] = $adminUsername;
-    header('Location: ../admin/dashboard.php');
+    header('Location: /admin/dashboard');
     exit;
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     $_SESSION['login_errors'] = ['Customers must use an email address. Admins must use the admin username and password from config/.env.'];
     $_SESSION['login_old'] = ['login' => $login];
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 
@@ -60,24 +60,24 @@ try {
     if (!$user || !password_verify($password, $user['password_hash'])) {
         $_SESSION['login_errors'] = ['Invalid email or password.'];
         $_SESSION['login_old'] = ['login' => $login];
-        header('Location: login.php');
+        header('Location: /login');
         exit;
     }
 
     if (!$user['active']) {
         $_SESSION['login_errors'] = ['This account is not active.'];
         $_SESSION['login_old'] = ['login' => $login];
-        header('Location: login.php');
+        header('Location: /login');
         exit;
     }
 
     issue_user_jwt((int) $user['user_id'], $user['first_name'], $user['email']);
 
-    header('Location: products.php');
+    header('Location: /products');
     exit;
 } catch (Throwable $exception) {
     $_SESSION['login_errors'] = ['Login failed: ' . $exception->getMessage()];
     $_SESSION['login_old'] = ['login' => $login];
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }

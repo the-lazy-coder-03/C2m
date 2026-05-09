@@ -7,7 +7,7 @@ require_once __DIR__ . '/../config/database.php';
 startUserSession();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: products.php');
+    header('Location: /products');
     exit;
 }
 
@@ -15,13 +15,13 @@ $currentUser = current_user_from_jwt();
 
 if ($currentUser === null) {
     $_SESSION['login_errors'] = ['Please log in before adding products to your cart.'];
-    header('Location: login.php');
+    header('Location: /login');
     exit;
 }
 
 $productId = filter_input(INPUT_POST, 'product_id', FILTER_VALIDATE_INT);
 $csrfToken = $_POST['csrf_token'] ?? '';
-$redirectPath = $productId ? 'product.php?id=' . $productId : 'products.php';
+$redirectPath = $productId ? '/product/' . $productId : '/products';
 
 if (!$productId || !is_string($csrfToken) || !isValidCsrfToken('cart_action', $csrfToken)) {
     $_SESSION['cart_flash'] = [
@@ -64,7 +64,7 @@ try {
         'message' => $product['title'] . ' was added to your cart.',
     ];
 
-    header('Location: cart.php');
+    header('Location: /cart');
     exit;
 } catch (Throwable $exception) {
     $_SESSION['cart_flash'] = [

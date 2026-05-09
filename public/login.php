@@ -14,7 +14,7 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login | LocalMarket</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/marketplace.css">
+    <link rel="stylesheet" href="/assets/css/marketplace.css">
 </head>
 <body>
 <div class="market-page auth-page">
@@ -36,7 +36,7 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
                     </div>
                 <?php endif; ?>
 
-                <form class="market-card bg-white p-4" action="login_process.php" method="POST" novalidate>
+                <form class="market-card bg-white p-4" action="/login" method="POST" novalidate>
                     <div class="mb-3">
                         <label class="form-label" for="login">Email address</label>
                         <input class="form-control" id="login" name="login" type="text" value="<?php echo htmlspecialchars($old['login'] ?? ''); ?>" required>
@@ -54,13 +54,13 @@ unset($_SESSION['login_errors'], $_SESSION['login_old']);
 
                     <p class="auth-switch text-center mb-0 mt-4">
                         New to LocalMarket?
-                        <a href="register.php">Create an account</a>
+                        <a href="/register">Create an account</a>
                     </p>
                 </form>
             </div>
         </div>
     </main>
 </div>
-<script src="assets/js/marketplace.js"></script>
+<script src="/assets/js/marketplace.js"></script>
 </body>
 </html>

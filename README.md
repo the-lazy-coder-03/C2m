@@ -3,11 +3,14 @@
 LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can register, log in, create listings with images, browse products, filter by category, view account details, and delete their own listings.
 
 ## Main Entry Files
+- `public/index.php` Front controller for clean routes such as `/products`, `/login`, and `/product/1`.
+- `app/Router.php` Small method-aware router with dynamic route parameters.
+- `app/routes.php` Route map for public, cart, checkout, account, and admin pages.
 - `index.php` Public homepage. Loads the latest active listings from PostgreSQL, displays category links, includes the main navbar/footer, and links to product details.
 - `includes/navbar.php` Homepage navbar. Reads the JWT cookie and switches between login/register links and account/listing/logout links.
-- `includes/footer.php` Homepage footer. Loads Bootstrap JavaScript and `js/script.js`.
-- `css/style.css` Homepage styles.
-- `js/script.js` Homepage JavaScript for smooth scrolling, mobile nav, listing search, and button hover motion.
+- `includes/footer.php` Homepage footer. Loads Bootstrap JavaScript and `/js/script.js`.
+- `public/css/style.css` Homepage styles served from the public web root.
+- `public/js/script.js` Homepage JavaScript for smooth scrolling, mobile nav, listing search, and button hover motion.
 
 ## Public Website
 - `public/products.php` Browse page. Shows active products and supports category filtering with `?category=CategoryName`.
@@ -41,9 +44,9 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `admin/settings.php` Admin settings page.
 - `admin/partials/header.php` Shared admin auth guard, sidebar, and page header.
 - `admin/partials/footer.php` Shared admin footer and scripts.
-- `admin/assets/css/admin.css` Admin-only styles.
-- `admin/assets/js/admin.js` Admin-only JavaScript.
-- `admin/assets/images/logo.svg` Admin logo.
+- `public/assets/admin/css/admin.css` Admin-only styles served from the public web root.
+- `public/assets/admin/js/admin.js` Admin-only JavaScript.
+- `public/assets/admin/images/logo.svg` Admin logo.
 
 ## Application Helpers
 - `app/helpers/jwt_helper.php` JWT creation, validation, cookie login state, and logged-in user guard.
@@ -56,7 +59,6 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `config/config.php` Loads key-value pairs from `config/.env` and exposes `config_get()`.
 - `config/database.php` Creates the PostgreSQL PDO connection.
 - `config/sql code` PostgreSQL schema for users, categories, products, product images, orders, payments, and constraints.
-- `.user.ini` PHP upload settings for shared hosting/PHP-FPM when the project root is scanned.
 - `public/.user.ini` PHP upload settings for shared hosting/PHP-FPM when `public/` is the web root.
 - `.gitignore` Keeps local secrets, macOS metadata, and runtime uploads out of version control.
 
@@ -65,10 +67,12 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 
 ## Running Locally
 ```bash
-php -d upload_max_filesize=10M -d post_max_size=80M -d max_file_uploads=20 -d memory_limit=256M -S localhost:8000
+php -d upload_max_filesize=10M -d post_max_size=80M -d max_file_uploads=20 -d memory_limit=256M -S localhost:8000 -t public
 ```
 
 Open:
 ```text
 http://localhost:8000
+http://localhost:8000/products
+http://localhost:8000/login
 ```

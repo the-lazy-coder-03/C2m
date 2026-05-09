@@ -138,7 +138,7 @@ $statusClasses = [
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Recent Orders</h5>
-                    <a class="btn btn-sm btn-outline-primary" href="orders.php">View Orders</a>
+                    <a class="btn btn-sm btn-outline-primary" href="/admin/orders">View Orders</a>
                 </div>
                 <div class="card-body p-0">
                     <?php if ($recentOrders === []): ?>
@@ -178,7 +178,7 @@ $statusClasses = [
             <div class="card shadow-sm border-0 h-100">
                 <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Recent Listings</h5>
-                    <a class="btn btn-sm btn-outline-primary" href="products.php">Manage Listings</a>
+                    <a class="btn btn-sm btn-outline-primary" href="/admin/products">Manage Listings</a>
                 </div>
                 <div class="list-group list-group-flush">
                     <?php if ($recentListings === []): ?>
@@ -186,7 +186,7 @@ $statusClasses = [
                     <?php else: ?>
                         <?php foreach ($recentListings as $listing): ?>
                             <?php $statusClass = $statusClasses[$listing['status']] ?? 'secondary'; ?>
-                            <a class="list-group-item list-group-item-action" href="product_edit.php?id=<?php echo (int) $listing['product_id']; ?>">
+                            <a class="list-group-item list-group-item-action" href="/edit-product/<?php echo (int) $listing['product_id']; ?>">
                                 <div class="d-flex justify-content-between gap-3">
                                     <div>
                                         <div class="fw-semibold"><?php echo htmlspecialchars($listing['title']); ?></div>
