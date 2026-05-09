@@ -55,7 +55,6 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 
 ## Configuration
 - `config/.env` Local environment values. Keep this private and do not commit real credentials.
-- `config/.env.example` Safe sample environment values for setup.
 - `config/config.php` Loads key-value pairs from `config/.env` and exposes `config_get()`.
 - `config/database.php` Creates the PostgreSQL PDO connection.
 - `config/sql code` PostgreSQL schema for users, categories, products, product images, orders, payments, and constraints.
