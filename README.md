@@ -75,3 +75,15 @@ http://localhost:8000
 http://localhost:8000/products
 http://localhost:8000/login
 ```
+
+## Running With Docker
+```bash
+docker compose up --build
+```
+
+Open:
+```text
+http://localhost:8000
+```
+
+The Docker image serves `public/` through Apache and installs PostgreSQL PDO support. It reads your existing private `config/.env` from the mounted project folder at runtime.

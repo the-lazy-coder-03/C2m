@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+    container_name: localmarket-web
+    ports:
+      - "8000:80"
+    volumes:
+      - .:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      APP_RUNNING_IN_DOCKER: "1"

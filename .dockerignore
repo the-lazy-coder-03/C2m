@@ -1,0 +1,9 @@
+.DS_Store
+.git
+.idea
+.env
+config/.env
+node_modules/
+vendor/
+public/uploads/products/*
+!public/uploads/products/.gitkeep
