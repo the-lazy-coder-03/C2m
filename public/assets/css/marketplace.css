@@ -1,6 +1,7 @@
 :root {
     --lm-primary: #0d6efd;
-    --lm-secondary: #198754;
+    --lm-secondary: #0d6efd;
+    --lm-primary-hover: #0b5ed7;
 }
 
 body {
@@ -65,7 +66,7 @@ body {
     padding: 0.75rem 1.15rem;
     border-radius: 999px;
     color: #ffffff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 14px 24px rgba(13, 110, 253, 0.18);
 }
 
@@ -94,8 +95,26 @@ body {
 .btn-market-primary {
     border: none;
     color: #ffffff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 16px 30px rgba(13, 110, 253, 0.22);
+}
+
+.btn-primary,
+.btn-success {
+    border-color: var(--lm-primary);
+    background: var(--lm-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus,
+.btn-market-primary:hover,
+.btn-market-primary:focus {
+    border-color: var(--lm-primary-hover);
+    background: var(--lm-primary-hover);
+    color: #ffffff;
 }
 
 .btn-market-primary:hover,
@@ -253,7 +272,7 @@ body {
 
 .account-tabs .nav-link.active {
     color: #ffffff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 12px 24px rgba(13, 110, 253, 0.16);
 }
 
@@ -281,7 +300,7 @@ body {
     height: 100%;
     padding: 1rem;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(13, 110, 253, 0.10), rgba(25, 135, 84, 0.10));
+    background: rgba(13, 110, 253, 0.10);
 }
 
 .account-stat span,

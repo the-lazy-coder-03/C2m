@@ -1,6 +1,7 @@
 :root {
     --lm-primary: #0d6efd;
-    --lm-secondary: #198754;
+    --lm-secondary: #0d6efd;
+    --lm-primary-hover: #0b5ed7;
     --lm-background: #f8f9fa;
     --lm-surface: #ffffff;
     --lm-text: #14213d;
@@ -24,10 +25,7 @@ body {
     margin: 0;
     font-family: "Plus Jakarta Sans", sans-serif;
     color: var(--lm-text);
-    background:
-        radial-gradient(circle at top left, rgba(13, 110, 253, 0.10), transparent 30%),
-        radial-gradient(circle at right center, rgba(25, 135, 84, 0.10), transparent 26%),
-        var(--lm-background);
+    background: var(--lm-background);
 }
 
 h1,
@@ -139,7 +137,7 @@ main {
     justify-content: center;
     border-radius: 50%;
     color: #fff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 10px 24px rgba(13, 110, 253, 0.25);
 }
 
@@ -165,7 +163,7 @@ main {
     padding: 0.75rem 1.15rem;
     border-radius: 999px;
     color: #fff !important;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 14px 24px rgba(13, 110, 253, 0.18);
 }
 
@@ -173,7 +171,7 @@ main {
     padding: 0.75rem 1.15rem;
     border-radius: 999px;
     color: #fff !important;
-    background: linear-gradient(135deg, #111827, var(--lm-primary));
+    background: var(--lm-primary);
     box-shadow: 0 14px 24px rgba(17, 24, 39, 0.18);
 }
 
@@ -276,8 +274,26 @@ main {
 .btn-market-primary {
     border: none;
     color: #fff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
     box-shadow: 0 16px 30px rgba(13, 110, 253, 0.22);
+}
+
+.btn-primary,
+.btn-success {
+    border-color: var(--lm-primary);
+    background: var(--lm-primary);
+    color: #fff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus,
+.btn-market-primary:hover,
+.btn-market-primary:focus {
+    border-color: var(--lm-primary-hover);
+    background: var(--lm-primary-hover);
+    color: #fff;
 }
 
 .btn-market-outline {
@@ -354,7 +370,7 @@ main {
     grid-column: 1 / -1;
     width: 100%;
     padding: 2rem;
-    background: linear-gradient(145deg, rgba(13, 110, 253, 0.98), rgba(25, 135, 84, 0.92));
+    background: var(--lm-primary);
     color: #fff;
 }
 
@@ -464,7 +480,7 @@ main {
     border-radius: 1.25rem;
     font-size: 1.5rem;
     color: #fff;
-    background: linear-gradient(135deg, var(--lm-primary), var(--lm-secondary));
+    background: var(--lm-primary);
 }
 
 .feature-card h3,
@@ -558,7 +574,7 @@ main {
     gap: 2rem;
     padding: 3rem;
     border-radius: 2rem;
-    background: linear-gradient(135deg, #0d6efd, #198754);
+    background: var(--lm-primary);
     color: #fff;
     box-shadow: var(--lm-shadow);
 }

@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 :root {
-    --admin-sidebar: #101827;
-    --admin-sidebar-soft: #1d2939;
+    --admin-sidebar: #0d6efd;
+    --admin-sidebar-soft: #0d6efd;
     --admin-accent: #0d6efd;
+    --admin-accent-hover: #0b5ed7;
     --admin-bg: #f5f7fb;
     --admin-border: rgba(16, 24, 39, 0.08);
 }
@@ -42,7 +43,7 @@ body.theme-dark .table-light {
     min-width: 270px;
     max-width: 270px;
     min-height: 100vh;
-    background: linear-gradient(180deg, var(--admin-sidebar), var(--admin-sidebar-soft));
+    background: var(--admin-sidebar);
     transition: margin-left 0.25s ease;
     box-shadow: 16px 0 40px rgba(16, 24, 39, 0.16);
 }
@@ -96,10 +97,7 @@ body.theme-dark .table-light {
     align-items: center;
     justify-content: center;
     padding: 2rem 1rem;
-    background:
-        radial-gradient(circle at top left, rgba(13, 110, 253, 0.18), transparent 34%),
-        radial-gradient(circle at bottom right, rgba(25, 135, 84, 0.16), transparent 30%),
-        var(--admin-bg);
+    background: var(--admin-bg);
 }
 
 .auth-card {
@@ -217,6 +215,25 @@ body.theme-dark .table-light {
 .auth-card .btn.primary {
     border-color: var(--admin-accent);
     background: var(--admin-accent);
+    color: #ffffff;
+}
+
+.btn-primary,
+.btn-success,
+.auth-card .btn.primary {
+    border-color: var(--admin-accent);
+    background: var(--admin-accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-success:hover,
+.btn-success:focus,
+.auth-card .btn.primary:hover,
+.auth-card .btn.primary:focus {
+    border-color: var(--admin-accent-hover);
+    background: var(--admin-accent-hover);
     color: #ffffff;
 }
 
