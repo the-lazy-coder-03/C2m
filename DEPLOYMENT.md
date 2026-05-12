@@ -81,4 +81,6 @@ Adjust the PHP-FPM socket path for your installed PHP version.
 
 Vercel does not run normal PHP apps by default. This repo keeps `vercel.json` and `api/index.php` as a lightweight compatibility bridge using the community `vercel-php` runtime. Static assets are served from `public/`, and all app routes are forwarded to the same `public/index.php` router.
 
+In Vercel project settings, keep the Root Directory set to the repository root. Do not set it to `public/`. If Vercel uses `public/` as the project root, it will treat `index.php` like a static file and browsers may download it instead of showing the app.
+
 For the most reliable production hosting, prefer Apache/cPanel, Nginx/PHP-FPM on VPS/EC2, or another PHP-friendly host.
