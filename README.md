@@ -3,10 +3,10 @@
 LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can register, log in, create listings with images, browse products, filter by category, view account details, and delete their own listings.
 
 ## Main Entry Files
-- `public/index.php` Front controller for clean routes such as `/products`, `/login`, and `/product/1`.
+- `public/front_controller.php` Front controller for clean routes such as `/products`, `/login`, and `/product/1`.
 - `app/Router.php` Small method-aware router with dynamic route parameters.
 - `app/routes.php` Route map for public, cart, checkout, account, and admin pages.
-- `index.php` Public homepage. Loads the latest active listings from PostgreSQL, displays category links, includes the main navbar/footer, and links to product details.
+- `public/home.php` Public homepage. Loads the latest active listings from PostgreSQL, displays category links, includes the main navbar/footer, and links to product details.
 - `includes/navbar.php` Homepage navbar. Reads the JWT cookie and switches between login/register links and account/listing/logout links.
 - `includes/footer.php` Homepage footer. Loads Bootstrap JavaScript and `/js/script.js`.
 - `public/css/style.css` Homepage styles served from the public web root.

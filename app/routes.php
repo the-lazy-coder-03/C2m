@@ -1,7 +1,7 @@
 <?php
 
-$router->get('/', 'index.php');
-$router->get('/index.php', 'index.php');
+$router->get('/', 'public/home.php');
+$router->get('/index.php', 'public/home.php');
 
 $router->get('/products', 'public/products.php');
 $router->get('/products.php', 'public/products.php');

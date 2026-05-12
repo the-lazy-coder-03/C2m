@@ -7,7 +7,7 @@ Use `public/` as the web root for this app.
 Local run command:
 
 ```bash
-php -S localhost:8000 -t public
+php -S localhost:8000 -t public public/front_controller.php
 ```
 
 Then test:
@@ -37,14 +37,15 @@ The active copies live under `public/css`, `public/js`, `public/assets/admin`, `
 
 ## Apache / cPanel
 
-Set the document root to the `public/` directory. The file `public/.htaccess` rewrites clean URLs to `public/index.php` while allowing real static files to load normally.
+Set the document root to the `public/` directory. The file `public/.htaccess` rewrites clean URLs to `public/front_controller.php` while allowing real static files to load normally.
 
 ```apache
+DirectoryIndex front_controller.php
 RewriteEngine On
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.php [QSA,L]
+RewriteRule ^ front_controller.php [QSA,L]
 ```
 
 ## Nginx / VPS / EC2
@@ -56,10 +57,10 @@ server {
     listen 80;
     server_name _;
     root /var/www/localmarket/public;
-    index index.php;
+    index front_controller.php;
 
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files $uri $uri/ /front_controller.php?$query_string;
     }
 
     location ~ \.php$ {
@@ -79,8 +80,8 @@ Adjust the PHP-FPM socket path for your installed PHP version.
 
 ## Vercel
 
-Vercel does not run normal PHP apps by default. This repo keeps `vercel.json` and `api/index.php` as a lightweight compatibility bridge using the community `vercel-php` runtime. Static assets are served from `public/`, and all app routes are forwarded to the same `public/index.php` router.
+Vercel does not run normal PHP apps by default. This repo keeps `vercel.json` and `api/index.php` as a lightweight compatibility bridge using the community `vercel-php` runtime. Static assets are served from `public/`, and all app routes are forwarded to the same `public/front_controller.php` router.
 
-In Vercel project settings, keep the Root Directory set to the repository root. Do not set it to `public/`. If Vercel uses `public/` as the project root, it will treat `index.php` like a static file and browsers may download it instead of showing the app.
+In Vercel project settings, keep the Root Directory set to the repository root. Do not set it to `public/`. If Vercel uses `public/` as the project root, it will treat PHP files like static files and browsers may download them instead of showing the app.
 
 For the most reliable production hosting, prefer Apache/cPanel, Nginx/PHP-FPM on VPS/EC2, or another PHP-friendly host.

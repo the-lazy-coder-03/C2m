@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/app/helpers/product_image_helper.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -79,7 +79,7 @@ try {
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<?php include 'includes/navbar.php'; ?>
+<?php include __DIR__ . '/../includes/navbar.php'; ?>
 
 <main>
     <section id="home" class="hero-section">
@@ -335,4 +335,4 @@ try {
     </section>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include __DIR__ . '/../includes/footer.php'; ?>

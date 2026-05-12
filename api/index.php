@@ -2,4 +2,4 @@
 
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/public/index.php';
+require dirname(__DIR__) . '/public/front_controller.php';
