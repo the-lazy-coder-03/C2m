@@ -21,6 +21,17 @@ $formData = [
     'condition' => 'used',
     'location' => '',
 ];
+$southAfricanProvinces = [
+    'Eastern Cape',
+    'Free State',
+    'Gauteng',
+    'KwaZulu-Natal',
+    'Limpopo',
+    'Mpumalanga',
+    'Northern Cape',
+    'North West',
+    'Western Cape',
+];
 
 try {
     $pdo = getDbConnection();
@@ -58,6 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
 
     if (!in_array($formData['condition'], ['new', 'used', 'refurbished'], true)) {
         $errors[] = 'Please choose a valid condition.';
+    }
+
+    if (!in_array($formData['location'], $southAfricanProvinces, true)) {
+        $errors[] = 'Please choose a valid province.';
     }
 
     if ($errors === []) {
@@ -181,7 +196,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
 
                         <div class="col-md-4">
                             <label class="form-label" for="location">Location</label>
-                            <input class="form-control" id="location" name="location" value="<?php echo htmlspecialchars($formData['location']); ?>" placeholder="Cape Town">
+                            <select class="form-select" id="location" name="location" required>
+                                <option value="">Choose province</option>
+                                <?php foreach ($southAfricanProvinces as $province): ?>
+                                    <option value="<?php echo htmlspecialchars($province); ?>" <?php echo $formData['location'] === $province ? 'selected' : ''; ?>>
+                                        <?php echo htmlspecialchars($province); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
 
                         <div class="col-12">
