@@ -14,7 +14,7 @@
         <section class="market-card bg-white p-5 text-center mx-auto" style="max-width: 640px;">
             <p class="text-primary fw-bold mb-2">404</p>
             <h1 class="fw-bold mb-3">Page not found</h1>
-            <p class="text-secondary mb-4">The page you are looking for does not exist or has moved.</p>
+            <p class="text-secondary mb-4">The page you are looking for does not exist or has moved. </p>
             <a class="btn btn-market-primary" href="/products">Browse Items</a>
         </section>
     </main>
