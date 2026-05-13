@@ -173,3 +173,5 @@ PUBLIC_WEB_BASE=
 ```
 
 The image paths stored in PostgreSQL do not change.
+
+For Vercel with Neon Postgres, set `DB_SSLMODE=require`. If you use `DATABASE_URL`, include Neon's `sslmode=require` query parameter. The app automatically derives `DB_ENDPOINT` from Neon hosts like `ep-example-123456.region.aws.neon.tech`, but you can set `DB_ENDPOINT=ep-example-123456` manually if Vercel still reports that the endpoint ID is missing.

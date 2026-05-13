@@ -84,4 +84,8 @@ Vercel does not run normal PHP apps by default. This repo keeps `vercel.json` an
 
 In Vercel project settings, keep the Root Directory set to the repository root. Do not set it to `public/`. If Vercel uses `public/` as the project root, it will treat PHP files like static files and browsers may download them instead of showing the app.
 
+If the deployed site shows `404: NOT_FOUND`, Vercel is usually not reading the root `vercel.json`. Check **Settings → General → Root Directory** in Vercel and set it to the repository root, often shown as `./` or left blank. Then redeploy the latest commit with a cleared build cache.
+
+For Neon Postgres on Vercel, set the database environment variables in **Settings → Environment Variables**. The app supports either separate `DB_*` values or one `DATABASE_URL`. Neon requires SSL, so use `DB_SSLMODE=require` when using separate values. If the host looks like `ep-example-123456.region.aws.neon.tech`, the app automatically passes the Neon endpoint ID from the first part of the host. You can also set `DB_ENDPOINT=ep-example-123456` explicitly if needed.
+
 For the most reliable production hosting, prefer Apache/cPanel, Nginx/PHP-FPM on VPS/EC2, or another PHP-friendly host.
