@@ -12,6 +12,7 @@ if (PHP_SAPI === 'cli-server') {
 }
 
 require_once __DIR__ . '/../app/Router.php';
+require_once __DIR__ . '/../app/helpers/rate_limit_helper.php';
 
 $requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 $requestPath = '/' . trim(rawurldecode($requestPath), '/');
@@ -22,6 +23,8 @@ require __DIR__ . '/../app/routes.php';
 
 $requestMethod = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
 $isHeadRequest = $requestMethod === 'HEAD';
+
+applyApiRateLimit($requestMethod, $requestPath);
 
 if ($isHeadRequest) {
     ob_start();

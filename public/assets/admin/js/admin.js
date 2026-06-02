@@ -1,7 +1,6 @@
 (function () {
     var toggleBtn = document.querySelector('[data-action="toggle-theme"]');
     var logoutBtn = document.querySelector('[data-action="logout"]');
-    var searchInput = document.querySelector('[data-role="search"]');
     var storageKey = 'admin_theme';
 
     function applyTheme(theme) {
@@ -32,21 +31,6 @@
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
             window.location.href = 'logout.php';
-        });
-    }
-
-    if (searchInput) {
-        document.addEventListener('keydown', function (event) {
-            if (event.key === '/' && document.activeElement !== searchInput) {
-                event.preventDefault();
-                searchInput.focus();
-            }
-        });
-
-        searchInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                searchInput.blur();
-            }
         });
     }
 

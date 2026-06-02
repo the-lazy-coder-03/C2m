@@ -79,13 +79,6 @@ $active = $active ?? 'dashboard';
                 </button>
                 
                 <div class="ms-auto d-flex align-items-center">
-                    <div class="search me-3 d-none d-md-block">
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
-                            <input data-role="search" type="text" class="form-control bg-light border-0" placeholder="Search… (press /)" style="width: 250px;">
-                        </div>
-                    </div>
-                    
                     <button class="btn btn-outline-secondary me-2 btn-sm" type="button" data-action="toggle-theme">
                         <i class="bi bi-moon-stars"></i>
                     </button>

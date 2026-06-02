@@ -338,47 +338,6 @@ main {
     background-color: rgba(34, 197, 94, 0.14) !important;
 }
 
-.hero-search-card {
-    max-width: 34rem;
-    padding: 1.5rem;
-    border-radius: var(--lm-radius-sm);
-    background: rgba(255, 255, 255, 0.88);
-    border: 1px solid rgba(34, 197, 94, 0.08);
-    box-shadow: var(--lm-shadow-soft);
-}
-
-.hero-search-card .form-label {
-    font-weight: 700;
-    margin-bottom: 0.8rem;
-}
-
-.hero-search-group {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0.8rem 1rem;
-    border-radius: 999px;
-    background: var(--lm-surface);
-    border: 1px solid rgba(34, 197, 94, 0.12);
-}
-
-.hero-search-group i {
-    color: var(--lm-primary);
-}
-
-.hero-search-group .form-control {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    background: transparent;
-}
-
-.search-status {
-    margin: 0.85rem 0 0;
-    color: var(--lm-muted);
-    min-height: 1.5rem;
-}
-
 .hero-showcase {
     --hero-card-gap: 3rem;
     display: grid;
@@ -573,10 +532,6 @@ main {
     color: var(--lm-secondary);
     font-size: 1.5rem;
     font-weight: 800;
-}
-
-.product-item.is-hidden {
-    display: none;
 }
 
 .empty-listings-card {

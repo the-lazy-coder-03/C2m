@@ -10,7 +10,7 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `includes/navbar.php` Homepage navbar. Reads the JWT cookie and switches between login/register links and account/listing/logout links.
 - `includes/footer.php` Homepage footer. Loads Bootstrap JavaScript and `/js/script.js`.
 - `public/css/style.css` Homepage styles served from the public web root.
-- `public/js/script.js` Homepage JavaScript for smooth scrolling, mobile nav, listing search, and button hover motion.
+- `public/js/script.js` Homepage JavaScript for smooth scrolling, mobile nav, and button hover motion.
 
 ## Public Website
 - `public/products.php` Browse page. Shows active products and supports category filtering with `?category=CategoryName`.
@@ -74,4 +74,4 @@ Open:
 http://localhost:8000
 http://localhost:8000/products
 http://localhost:8000/login
-```
+```≈

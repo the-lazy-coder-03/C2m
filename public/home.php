@@ -96,23 +96,6 @@ try {
                         <a href="/products" class="btn btn-market-primary btn-lg btn-animated">Browse Items</a>
                         <a href="/create-product" class="btn btn-market-outline btn-lg btn-animated">Start Selling</a>
                     </div>
-
-                    <div class="hero-search-card">
-                        <label for="marketSearch" class="form-label">Search featured items</label>
-                        <div class="hero-search-group">
-                            <i class="bi bi-search"></i>
-                            <input
-                                type="text"
-                                id="marketSearch"
-                                class="form-control"
-                                placeholder="Try iPhone, bike, laptop..."
-                                data-search-input
-                            >
-                        </div>
-                        <p class="search-status" data-search-status>
-                            Showing <?php echo count($featuredProducts); ?> live listings ready for local deals.
-                        </p>
-                    </div>
                 </div>
 
                 <div class="col-lg-6">
@@ -213,14 +196,7 @@ try {
             <?php else: ?>
                 <div class="row g-4">
                     <?php foreach ($featuredProducts as $product): ?>
-                        <?php
-                        $searchText = strtolower(trim(
-                            $product['title'] . ' ' .
-                            ($product['location'] ?? '') . ' ' .
-                            ($product['category_name'] ?? '')
-                        ));
-                        ?>
-                        <div class="col-sm-6 col-xl-4 product-item" data-product-card data-product-name="<?php echo htmlspecialchars($searchText); ?>">
+                        <div class="col-sm-6 col-xl-4 product-item">
                             <article class="product-card">
                                 <div class="product-image-wrap">
                                     <img
