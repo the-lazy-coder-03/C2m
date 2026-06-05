@@ -63,9 +63,6 @@ $active = $active ?? 'dashboard';
                 </li>
             </ul>
 
-            <div class="footer mt-auto">
-                <p class="small text-white-50">Logged in as: <?php echo htmlspecialchars($name); ?></p>
-            </div>
         </div>
     </nav>
 

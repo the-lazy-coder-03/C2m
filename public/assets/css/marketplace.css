@@ -58,7 +58,7 @@ body {
 
 .market-nav-links a:hover,
 .market-nav-links a:focus {
-    color: var(--lm-primary);
+    color: #000000;
     transform: translateY(-1px);
 }
 
@@ -127,13 +127,13 @@ body {
 
 .btn-market-outline {
     border: 1px solid rgba(34, 197, 94, 0.18);
-    color: var(--lm-primary);
+    color: #000000;
     background: rgba(255, 255, 255, 0.85);
 }
 
 .btn-market-outline:hover,
 .btn-market-outline:focus {
-    color: var(--lm-primary);
+    color: #000000;
     border-color: rgba(34, 197, 94, 0.28);
     background: #ffffff;
 }
@@ -147,7 +147,7 @@ body {
 
 .btn-outline-primary {
     border-color: rgba(34, 197, 94, 0.35);
-    color: var(--lm-primary);
+    color: #000000;
 }
 
 .btn-outline-primary:hover,
@@ -158,7 +158,11 @@ body {
 }
 
 .text-primary {
-    color: var(--lm-primary) !important;
+    color: #000000 !important;
+}
+
+.text-success {
+    color: #000000 !important;
 }
 
 .bg-primary,
@@ -264,7 +268,7 @@ body {
     transform: translateY(-50%);
     border: 0;
     background: transparent;
-    color: #22c55e;
+    color: #000000;
     font-weight: 700;
 }
 
@@ -273,7 +277,7 @@ body {
 }
 
 .auth-switch a {
-    color: #22c55e;
+    color: #000000;
     font-weight: 700;
     text-decoration: none;
 }
@@ -304,7 +308,7 @@ body {
 }
 
 .account-tabs .nav-link.active .badge {
-    color: var(--lm-primary) !important;
+    color: #000000 !important;
 }
 
 .account-details {
@@ -340,7 +344,7 @@ body {
 .account-stat strong {
     display: block;
     margin-top: 0.35rem;
-    color: #22c55e;
+    color: #000000;
     font-size: 2rem;
     line-height: 1;
 }
