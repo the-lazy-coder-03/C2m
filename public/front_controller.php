@@ -33,7 +33,8 @@ if ($isHeadRequest) {
 
 if (!$router->dispatch($requestMethod, $requestPath)) {
     http_response_code(404);
-    require __DIR__ . '/404.php';
+    header('Content-Type: text/plain; charset=UTF-8');
+    echo '404 Not Found';
 }
 
 if ($isHeadRequest) {

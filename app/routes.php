@@ -4,7 +4,6 @@ $router->get('/', 'public/index.html');
 $router->get('/index.html', 'public/index.html');
 $router->get('/index.php', 'public/index.html');
 $router->get('/favicon.ico', 'public/favicon.php');
-$router->get('/favicon.png', 'public/favicon.php');
 $router->get('/favicon.svg', 'public/favicon.php');
 
 $router->get('/products', 'public/products.php');

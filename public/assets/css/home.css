@@ -26,10 +26,7 @@ body {
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
+h3 {
     font-family: "Sora", sans-serif;
     font-weight: 700;
     letter-spacing: 0;
@@ -196,55 +193,30 @@ a {
     font-weight: 700;
 }
 
-.btn-market-primary,
-.btn-primary,
-.btn-success,
-.bg-primary,
-.text-bg-primary {
+.btn-market-primary {
     border-color: var(--lm-primary);
     background: var(--lm-primary);
     color: #ffffff;
 }
 
 .btn-market-primary:hover,
-.btn-market-primary:focus,
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-success:hover,
-.btn-success:focus {
+.btn-market-primary:focus {
     border-color: var(--lm-primary-hover);
     background: var(--lm-primary-hover);
     color: #ffffff;
 }
 
-.btn-market-outline,
-.btn-outline-primary {
+.btn-market-outline {
     border: 1px solid var(--lm-border);
     background: var(--lm-surface);
     color: #000000;
 }
 
 .btn-market-outline:hover,
-.btn-market-outline:focus,
-.btn-outline-primary:hover,
-.btn-outline-primary:focus {
+.btn-market-outline:focus {
     border-color: var(--lm-primary);
     background: var(--lm-primary);
     color: #ffffff;
-}
-
-.text-primary,
-.text-success {
-    color: #000000 !important;
-}
-
-.bg-primary,
-.text-bg-primary {
-    background-color: var(--lm-primary) !important;
-}
-
-.bg-primary-subtle {
-    background-color: #e8f8ee !important;
 }
 
 .feature-card,
@@ -267,12 +239,6 @@ a {
 
 .process-card h3 {
     margin-bottom: 0.55rem;
-}
-
-.process-card p {
-    margin: 0;
-    color: var(--lm-muted);
-    line-height: 1.6;
 }
 
 .feature-icon,

@@ -5,7 +5,6 @@ if (!isset($_SESSION['admin_id'])) {
     header('Location: ' . $adminBasePath . '/login.php');
     exit;
 }
-$name = $_SESSION['admin_name'] ?? 'Admin';
 $pageTitle = $pageTitle ?? 'Admin';
 $active = $active ?? 'dashboard';
 ?>

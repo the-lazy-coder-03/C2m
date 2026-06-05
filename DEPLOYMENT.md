@@ -33,11 +33,11 @@ The app now uses `public/` as the web root, so duplicate non-public asset folder
 - root `.user.ini`
 - duplicate `DEPLOYMENT_CHECKLIST.md`
 
-The active copies live under `public/css`, `public/js`, `public/assets/admin`, `public/.user.ini`, and `DEPLOYMENT.md`.
+The active frontend assets live under `public/assets`.
 
 ## Apache / cPanel
 
-Set the document root to the `public/` directory. The file `public/.htaccess` rewrites clean URLs to `public/front_controller.php` while allowing real static files to load normally.
+For an optional Apache deployment, set the document root to `public/` and create an `.htaccess` file with:
 
 ```apache
 DirectoryIndex front_controller.php

@@ -1,25 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Smooth scrolling for on-page navigation links.
-    document.querySelectorAll('a[href^="#"]').forEach(function (link) {
-        link.addEventListener("click", function (event) {
-            var targetId = this.getAttribute("href");
-
-            if (!targetId || targetId === "#") {
-                return;
-            }
-
-            var target = document.querySelector(targetId);
-
-            if (!target) {
-                return;
-            }
-
-            event.preventDefault();
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-        });
-    });
-
-    // Basic mobile navigation toggle.
     var navToggle = document.querySelector("[data-nav-toggle]");
     var navMenu = document.querySelector("[data-nav-menu]");
 
@@ -37,7 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Small pointer-based hover motion for the main buttons.
     if (window.matchMedia("(hover: hover)").matches) {
         document.querySelectorAll(".btn-animated").forEach(function (button) {
             button.addEventListener("mousemove", function (event) {

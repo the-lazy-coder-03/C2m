@@ -7,8 +7,8 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `app/Router.php` Small method-aware router with dynamic route parameters.
 - `app/routes.php` Route map for public, cart, checkout, account, and admin pages.
 - `public/index.html` Static public homepage. Displays category links, marketplace overview sections, and links to dynamic product pages.
-- `public/css/style.css` Homepage styles served from the public web root.
-- `public/js/script.js` Homepage JavaScript for smooth scrolling, mobile nav, and button hover motion.
+- `public/assets/css/home.css` Homepage styles.
+- `public/assets/js/home.js` Homepage JavaScript for mobile navigation and button hover motion.
 
 ## Public Website
 - `public/products.php` Browse page. Shows active products and supports category filtering with `?category=CategoryName`.
@@ -30,7 +30,6 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `public/uploads/products/` Runtime folder where uploaded listing images are stored.
 
 ## Admin Website
-- `admin/index.php` Admin entry redirect. Sends admins to `dashboard.php` if logged in or `login.php` if not.
 - `admin/login.php` Admin login form.
 - `admin/auth.php` Admin login handler. Reads admin username/password from config.
 - `admin/logout.php` Admin logout handler.
@@ -55,7 +54,7 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 - `config/.env` Local environment values. Keep this private and do not commit real credentials.
 - `config/config.php` Loads key-value pairs from `config/.env` and exposes `config_get()`.
 - `config/database.php` Creates the PostgreSQL PDO connection.
-- `config/sql code` PostgreSQL schema for users, categories, products, product images, orders, payments, and constraints.
+- `config/schema.sql` PostgreSQL schema for users, categories, products, product images, orders, payments, and constraints.
 - `public/.user.ini` PHP upload settings for shared hosting/PHP-FPM when `public/` is the web root.
 - `.gitignore` Keeps local secrets, macOS metadata, and runtime uploads out of version control.
 
@@ -64,7 +63,7 @@ LocalMarket is a PHP/PostgreSQL customer-to-customer marketplace where users can
 
 ## Running Locally
 ```bash
-php -d upload_max_filesize=10M -d post_max_size=80M -d max_file_uploads=20 -d memory_limit=256M -S localhost:8000 -t public
+php -d upload_max_filesize=10M -d post_max_size=80M -d max_file_uploads=20 -d memory_limit=256M -S localhost:8000 -t public public/front_controller.php
 ```
 
 Open:
@@ -72,4 +71,4 @@ Open:
 http://localhost:8000
 http://localhost:8000/products
 http://localhost:8000/login
-```≈
+```

@@ -334,8 +334,7 @@ body {
     background: rgba(34, 197, 94, 0.10);
 }
 
-.account-stat span,
-.listing-date {
+.account-stat span {
     display: block;
     color: #6c757d;
     font-size: 0.9rem;
