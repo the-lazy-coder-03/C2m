@@ -1,9 +1,8 @@
 <?php
 session_start();
-$adminBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/login.php')), '/');
 
 if (isset($_SESSION['admin_id'])) {
-    header('Location: ' . $adminBasePath . '/dashboard.php');
+    header('Location: /admin/dashboard');
     exit;
 }
 $err = $_GET['err'] ?? '';

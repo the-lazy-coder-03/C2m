@@ -1,8 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-$adminBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/dashboard.php')), '/');
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: ' . $adminBasePath . '/login.php');
+    header('Location: /admin/login');
     exit;
 }
 $pageTitle = $pageTitle ?? 'Admin';

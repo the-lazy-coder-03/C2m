@@ -30,7 +30,7 @@
 
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function () {
-            window.location.href = 'logout.php';
+            window.location.href = '/admin/logout';
         });
     }
 

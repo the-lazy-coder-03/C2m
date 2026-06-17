@@ -4,10 +4,8 @@ session_start();
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
-$adminBasePath = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/admin/product_edit.php')), '/');
-
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: ' . $adminBasePath . '/login.php');
+    header('Location: /admin/login');
     exit;
 }
 
