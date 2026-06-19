@@ -63,8 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
         $errors[] = 'Price must be a valid positive number.';
     }
 
-    if ($formData['quantity'] === '' || !ctype_digit($formData['quantity'])) {
-        $errors[] = 'Quantity must be a whole number.';
+    if ($formData['quantity'] === '' || !ctype_digit($formData['quantity']) || (int) $formData['quantity'] < 1) {
+        $errors[] = 'Quantity must be at least 1 for a new listing.';
     }
 
     if (!in_array($formData['condition'], ['new', 'used', 'refurbished'], true)) {
@@ -102,6 +102,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
             ]);
 
             $productId = (int) $stmt->fetchColumn();
+
+            if ($productId < 1) {
+                throw new RuntimeException('The new product ID could not be confirmed.');
+            }
+
             $savedImagePaths = store_product_images($pdo, $productId, $_FILES['product_images'] ?? []);
 
             $pdo->commit();
@@ -191,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
 
                         <div class="col-md-4">
                             <label class="form-label" for="quantity">Quantity</label>
-                            <input class="form-control" id="quantity" name="quantity" type="number" min="0" value="<?php echo htmlspecialchars($formData['quantity']); ?>" required>
+                            <input class="form-control" id="quantity" name="quantity" type="number" min="1" value="<?php echo htmlspecialchars($formData['quantity']); ?>" required>
                         </div>
 
                         <div class="col-md-4">
