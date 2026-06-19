@@ -110,7 +110,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
             $savedImagePaths = store_product_images($pdo, $productId, $_FILES['product_images'] ?? []);
 
             $pdo->commit();
-            header('Location: /product/' . $productId);
+            $_SESSION['listing_flash'] = [
+                'type' => 'success',
+                'message' => 'Listing created successfully.',
+            ];
+            header('Location: /my-listings');
             exit;
         } catch (Throwable $exception) {
             if ($pdo->inTransaction()) {
