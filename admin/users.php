@@ -48,7 +48,6 @@ try {
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
     <div>
         <h1 class="h2 mb-1">Users</h1>
-        <p class="text-muted mb-0">Live user accounts from PostgreSQL.</p>
     </div>
 </div>
 

@@ -1,7 +1,8 @@
 <?php
 session_start();
+require_once __DIR__ . '/../app/helpers/admin_auth_helper.php';
 
-if (isset($_SESSION['admin_id'])) {
+if (current_admin_user() !== null) {
     header('Location: /admin/dashboard');
     exit;
 }

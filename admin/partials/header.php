@@ -1,9 +1,7 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) session_start();
-if (!isset($_SESSION['admin_id'])) {
-    header('Location: /admin/login');
-    exit;
-}
+require_once __DIR__ . '/../../app/helpers/admin_auth_helper.php';
+require_admin_user();
 $pageTitle = $pageTitle ?? 'Admin';
 $active = $active ?? 'dashboard';
 ?>

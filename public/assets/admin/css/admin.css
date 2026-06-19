@@ -221,7 +221,9 @@ body.theme-dark .table-light {
 .btn-primary,
 .btn-success,
 .bg-primary,
+.bg-success,
 .text-bg-primary,
+.text-bg-success,
 .auth-card .btn.primary {
     border-color: var(--admin-accent);
     background: var(--admin-accent);
@@ -260,8 +262,14 @@ body.theme-dark .table-light {
 }
 
 .bg-primary,
+.bg-success,
 .text-bg-primary {
     background-color: var(--admin-accent) !important;
+}
+
+.text-bg-success {
+    background-color: var(--admin-accent) !important;
+    color: #ffffff !important;
 }
 
 .bg-primary-subtle {

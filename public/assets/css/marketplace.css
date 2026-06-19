@@ -102,7 +102,9 @@ body {
 .btn-primary,
 .btn-success,
 .bg-primary,
-.text-bg-primary {
+.bg-success,
+.text-bg-primary,
+.text-bg-success {
     border-color: var(--lm-primary);
     background: var(--lm-primary);
     color: #ffffff;
@@ -166,7 +168,9 @@ body {
 }
 
 .bg-primary,
-.text-bg-primary {
+.bg-success,
+.text-bg-primary,
+.text-bg-success {
     background-color: var(--lm-primary) !important;
 }
 
