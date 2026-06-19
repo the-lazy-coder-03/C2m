@@ -454,7 +454,7 @@ if (!function_exists('send_product_image_s3_request')) {
         $response = curl_exec($curl);
         $statusCode = (int) curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
         $curlError = curl_error($curl);
-        curl_close($curl);
+        unset($curl);
 
         if ($response === false || $statusCode < 200 || $statusCode >= 300) {
             $detail = $curlError !== '' ? $curlError : trim(strip_tags((string) $response));
