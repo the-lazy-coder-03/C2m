@@ -181,23 +181,18 @@ require __DIR__ . '/partials/header.php';
             <form
                 action="/admin/delete-listing"
                 method="POST"
-                data-confirm-delete
-                data-confirm-title="Delete listing?"
-                data-confirm-message="This will permanently delete the listing, remove its database records, and delete its stored images. This cannot be undone."
-                data-confirm-label="Delete Listing"
+                onsubmit="return confirm('Delete this listing, its database records, and its stored images? This cannot be undone.');"
             >
                 <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>">
                 <input type="hidden" name="return_status" value="<?php echo htmlspecialchars($product['status'] ?? 'all'); ?>">
                 <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteListingToken); ?>">
-                <button class="admin-action-btn admin-action-delete" type="submit">
-                    <i class="bi bi-trash3"></i>
-                    <span>Delete Listing</span>
+                <button class="btn btn-outline-danger btn-sm" type="submit">
+                    <i class="bi bi-trash me-1"></i> Delete Listing
                 </button>
             </form>
         <?php endif; ?>
-        <a class="admin-action-btn admin-action-back" href="/admin/products">
-            <i class="bi bi-arrow-left"></i>
-            <span>Back to Listings</span>
+        <a class="btn btn-outline-secondary btn-sm" href="/admin/products">
+            <i class="bi bi-arrow-left me-1"></i> Back to Listings
         </a>
     </div>
 </div>
