@@ -3,6 +3,7 @@ session_start();
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/helpers/admin_auth_helper.php';
+require_once __DIR__ . '/../app/helpers/session_helper.php';
 require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
 require_admin_user();
@@ -165,6 +166,7 @@ if (!$productId) {
 
 $_SESSION['admin_product_edit_token'] = bin2hex(random_bytes(32));
 $csrfToken = $_SESSION['admin_product_edit_token'];
+$deleteListingToken = getCsrfToken('admin_delete_listing');
 
 require __DIR__ . '/partials/header.php';
 ?>
@@ -174,9 +176,25 @@ require __DIR__ . '/partials/header.php';
         <h1 class="h2 mb-1">Edit Listing</h1>
         <p class="text-muted mb-0">Update seller listing details as the admin.</p>
     </div>
-    <a class="btn btn-outline-secondary btn-sm" href="/admin/products">
-        <i class="bi bi-arrow-left me-1"></i> Back to Listings
-    </a>
+    <div class="d-flex flex-wrap gap-2">
+        <?php if ($product): ?>
+            <form
+                action="/admin/delete-listing"
+                method="POST"
+                onsubmit="return confirm('Delete this listing, its database records, and its stored images? This cannot be undone.');"
+            >
+                <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>">
+                <input type="hidden" name="return_status" value="<?php echo htmlspecialchars($product['status'] ?? 'all'); ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteListingToken); ?>">
+                <button class="btn btn-outline-danger btn-sm" type="submit">
+                    <i class="bi bi-trash me-1"></i> Delete Listing
+                </button>
+            </form>
+        <?php endif; ?>
+        <a class="btn btn-outline-secondary btn-sm" href="/admin/products">
+            <i class="bi bi-arrow-left me-1"></i> Back to Listings
+        </a>
+    </div>
 </div>
 
 <?php if ($loadError !== ''): ?>

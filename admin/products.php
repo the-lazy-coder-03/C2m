@@ -206,7 +206,7 @@ $statusClasses = [
                             </td>
                             <td class="text-end fw-semibold">R<?php echo number_format((float) $product['price'], 2); ?></td>
                             <td class="pe-4 text-end">
-                                <div class="btn-group btn-group-sm">
+                                <div class="d-inline-flex flex-wrap justify-content-end gap-1">
                                     <?php if ($isPubliclyVisible): ?>
                                         <a class="btn btn-outline-secondary" href="/product/<?php echo (int) $product['product_id']; ?>" target="_blank">View</a>
                                     <?php else: ?>
@@ -214,6 +214,7 @@ $statusClasses = [
                                     <?php endif; ?>
                                     <a class="btn btn-primary" href="/edit-product/<?php echo (int) $product['product_id']; ?>">Edit</a>
                                     <form
+                                        class="d-inline"
                                         action="/admin/delete-listing"
                                         method="POST"
                                         onsubmit="return confirm('Delete this listing, its database records, and its stored images? This cannot be undone.');"
