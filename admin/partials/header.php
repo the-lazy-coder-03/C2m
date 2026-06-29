@@ -22,8 +22,7 @@ $active = $active ?? 'dashboard';
     <nav id="sidebar" class="bg-dark text-white">
         <div class="p-4 pt-5">
             <div class="brand d-flex align-items-center mb-4">
-                <img class="brand-logo me-2" src="/assets/admin/images/logo.svg" alt="Admin logo" style="width: 40px;" />
-                <h4 class="mb-0 text-white">Admin Panel</h4>
+                <h4 class="mb-0 text-white">LocalMarket</h4>
             </div>
             
             <ul class="list-unstyled components mb-5 nav flex-column">

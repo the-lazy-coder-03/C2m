@@ -52,11 +52,6 @@ body.theme-dark .table-light {
     margin-left: -270px;
 }
 
-#sidebar .brand-logo {
-    width: 40px;
-    height: 40px;
-}
-
 #sidebar .nav-link {
     border-radius: 0.75rem;
     margin-bottom: 0.25rem;
@@ -129,11 +124,6 @@ body.theme-dark .table-light {
 
 .auth-card .brand {
     gap: 0.75rem;
-}
-
-.auth-card .brand-logo {
-    width: 44px;
-    height: 44px;
 }
 
 .auth-card h1 {

@@ -21,9 +21,8 @@ $err = $_GET['err'] ?? '';
     <div class="auth-card">
         <div class="head">
             <div class="brand">
-                <img class="brand-logo" src="/assets/admin/images/logo.svg" alt="Admin logo" />
                 <div>
-                    <h1>Admin Panel</h1>
+                    <h1>LocalMarket</h1>
                     <p>Sign in to manage the platform</p>
                 </div>
             </div>
