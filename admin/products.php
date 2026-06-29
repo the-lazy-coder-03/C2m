@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/helpers/session_helper.php';
 require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
 $statusFilters = [
@@ -31,6 +32,7 @@ $statusCounts = [
 $error = '';
 $flash = $_SESSION['admin_flash'] ?? null;
 unset($_SESSION['admin_flash']);
+$deleteListingToken = getCsrfToken('admin_delete_listing');
 
 try {
     $pdo = getDbConnection();
@@ -211,6 +213,16 @@ $statusClasses = [
                                         <button class="btn btn-outline-secondary" type="button" disabled>Hidden</button>
                                     <?php endif; ?>
                                     <a class="btn btn-primary" href="/edit-product/<?php echo (int) $product['product_id']; ?>">Edit</a>
+                                    <form
+                                        action="/admin/delete-listing"
+                                        method="POST"
+                                        onsubmit="return confirm('Delete this listing, its database records, and its stored images? This cannot be undone.');"
+                                    >
+                                        <input type="hidden" name="product_id" value="<?php echo (int) $product['product_id']; ?>">
+                                        <input type="hidden" name="return_status" value="<?php echo htmlspecialchars($selectedStatus); ?>">
+                                        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($deleteListingToken); ?>">
+                                        <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
