@@ -56,11 +56,34 @@ if (!function_exists('get_product_image_s3_url')) {
     {
         $url = rtrim(trim((string) config_get('PRODUCT_IMAGE_S3_URL', '')), '/');
 
+        if ($url === '') {
+            $bucket = trim((string) (
+                config_get('PRODUCT_IMAGE_S3_BUCKET', '')
+                ?: config_get('S3_BUCKET', '')
+                ?: config_get('S3_BUCKET_NAME', '')
+                ?: config_get('AWS_S3_BUCKET', '')
+            ));
+            $region = trim((string) (
+                config_get('PRODUCT_IMAGE_S3_REGION', '')
+                ?: config_get('AWS_REGION', '')
+                ?: config_get('AWS_DEFAULT_REGION', '')
+            )) ?: 'us-east-1';
+            $prefix = trim((string) config_get('PRODUCT_IMAGE_S3_PREFIX', ''), '/');
+
+            if ($bucket !== '') {
+                $url = 'https://' . $bucket . '.s3.' . $region . '.amazonaws.com' . ($prefix === '' ? '' : '/' . $prefix);
+            }
+        }
+
         if (str_starts_with($url, 's3://')) {
             $parts = parse_url($url);
             $bucket = $parts['host'] ?? '';
             $path = trim($parts['path'] ?? '', '/');
-            $region = trim((string) config_get('PRODUCT_IMAGE_S3_REGION', '')) ?: 'us-east-1';
+            $region = trim((string) (
+                config_get('PRODUCT_IMAGE_S3_REGION', '')
+                ?: config_get('AWS_REGION', '')
+                ?: config_get('AWS_DEFAULT_REGION', '')
+            )) ?: 'us-east-1';
 
             if ($bucket !== '') {
                 $url = 'https://' . $bucket . '.s3.' . $region . '.amazonaws.com' . ($path === '' ? '' : '/' . $path);
@@ -75,6 +98,15 @@ if (!function_exists('is_product_image_s3_enabled')) {
     function is_product_image_s3_enabled(): bool
     {
         return get_product_image_s3_url() !== '';
+    }
+}
+
+if (!function_exists('is_vercel_runtime')) {
+    function is_vercel_runtime(): bool
+    {
+        return trim((string) config_get('VERCEL', '')) !== ''
+            || trim((string) config_get('VERCEL_ENV', '')) !== ''
+            || trim((string) config_get('VERCEL_URL', '')) !== '';
     }
 }
 
@@ -241,7 +273,11 @@ if (!function_exists('hash_hmac_binary')) {
 if (!function_exists('get_product_image_s3_region')) {
     function get_product_image_s3_region(string $host): string
     {
-        $configuredRegion = trim((string) config_get('PRODUCT_IMAGE_S3_REGION', ''));
+        $configuredRegion = trim((string) (
+            config_get('PRODUCT_IMAGE_S3_REGION', '')
+            ?: config_get('AWS_REGION', '')
+            ?: config_get('AWS_DEFAULT_REGION', '')
+        ));
 
         if ($configuredRegion !== '') {
             return $configuredRegion;
@@ -470,6 +506,10 @@ if (!function_exists('store_product_image_file')) {
             send_product_image_s3_request('PUT', product_image_s3_object_url($relativePath), $tmpName, $mimeType);
 
             return;
+        }
+
+        if (is_vercel_runtime()) {
+            throw new RuntimeException('Product image uploads on Vercel need cloud storage. Set PRODUCT_IMAGE_S3_URL, PRODUCT_IMAGE_S3_REGION, AWS_ACCESS_KEY_ID, and AWS_SECRET_ACCESS_KEY in Vercel Environment Variables.');
         }
 
         $absolutePath = project_public_path($relativePath);

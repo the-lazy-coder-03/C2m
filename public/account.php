@@ -396,13 +396,11 @@ if (!function_exists('render_live_listing_table')) {
 
                         <section class="tab-pane fade market-card bg-white p-4" id="purchase-history-panel" role="tabpanel" aria-labelledby="purchase-history-tab" tabindex="0">
                             <h2 class="h4 fw-bold mb-1">Purchase history</h2>
-                            <p class="text-secondary mb-4">Orders you have placed as a buyer.</p>
                             <?php render_order_table($purchaseHistory, $statusClasses, 'You have not purchased anything yet.', 'Seller'); ?>
                         </section>
 
                         <section class="tab-pane fade market-card bg-white p-4" id="selling-history-panel" role="tabpanel" aria-labelledby="selling-history-tab" tabindex="0">
                             <h2 class="h4 fw-bold mb-1">Selling history</h2>
-                            <p class="text-secondary mb-4">Orders received for your listings.</p>
                             <?php render_order_table($sellingHistory, $statusClasses, 'You have not sold anything yet.', 'Buyer'); ?>
                         </section>
                     </div>

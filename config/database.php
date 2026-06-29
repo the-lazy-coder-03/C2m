@@ -11,14 +11,23 @@ if (!function_exists('getDbConnection')) {
         $databaseUrl = config_get('DATABASE_URL', '');
         $urlConfig = $databaseUrl !== '' ? parseDatabaseUrl($databaseUrl) : [];
 
-        $host = config_get('DB_HOST', $urlConfig['host'] ?? 'localhost');
-        $port = config_get('DB_PORT', $urlConfig['port'] ?? '5432');
-        $dbname = config_get('DB_NAME', $urlConfig['dbname'] ?? 'c2m');
-        $user = config_get('DB_USER', $urlConfig['user'] ?? 'postgres');
-        $password = config_get('DB_PASS', $urlConfig['password'] ?? '');
+        if ($databaseUrl !== '') {
+            $host = (string) ($urlConfig['host'] ?? config_get('DB_HOST', 'localhost'));
+            $port = (string) ($urlConfig['port'] ?? config_get('DB_PORT', '5432'));
+            $dbname = (string) ($urlConfig['dbname'] ?? config_get('DB_NAME', 'c2m'));
+            $user = (string) ($urlConfig['user'] ?? config_get('DB_USER', 'postgres'));
+            $password = (string) ($urlConfig['password'] ?? config_get('DB_PASS', ''));
+        } else {
+            $host = (string) config_get('DB_HOST', 'localhost');
+            $port = (string) config_get('DB_PORT', '5432');
+            $dbname = (string) config_get('DB_NAME', 'c2m');
+            $user = (string) config_get('DB_USER', 'postgres');
+            $password = (string) config_get('DB_PASS', '');
+        }
+
         $isNeonHost = isNeonDatabaseHost($host);
-        $sslmode = config_get('DB_SSLMODE', $urlConfig['sslmode'] ?? ($isNeonHost ? 'require' : 'prefer'));
-        $endpoint = config_get('DB_ENDPOINT', $urlConfig['endpoint'] ?? '');
+        $sslmode = (string) ($urlConfig['sslmode'] ?? config_get('DB_SSLMODE', $isNeonHost ? 'require' : 'prefer'));
+        $endpoint = (string) ($urlConfig['endpoint'] ?? config_get('DB_ENDPOINT', ''));
 
         if ($isNeonHost && in_array($sslmode, ['', 'allow', 'prefer'], true)) {
             $sslmode = 'require';
