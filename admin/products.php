@@ -205,7 +205,10 @@ $statusClasses = [
                             <td class="text-end fw-semibold">R<?php echo number_format((float) $product['price'], 2); ?></td>
                             <td class="pe-4 text-end">
                                 <div class="d-inline-flex flex-wrap justify-content-end gap-1">
-                                    <a class="btn btn-primary" href="/edit-product/<?php echo (int) $product['product_id']; ?>">Edit</a>
+                                    <a class="admin-action-btn admin-action-edit" href="/edit-product/<?php echo (int) $product['product_id']; ?>">
+                                        <i class="bi bi-pencil-square"></i>
+                                        <span>Edit</span>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
