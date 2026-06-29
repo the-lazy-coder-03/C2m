@@ -78,6 +78,33 @@ server {
 
 Adjust the PHP-FPM socket path for your installed PHP version.
 
+## GitHub Actions CI/CD
+
+This repo deploys to EC2 from `.github/workflows/deploy.yml`.
+
+The workflow runs PHP syntax linting on pushes and pull requests to `master`.
+After a successful push to `master`, it SSHes into the EC2 instance and runs a
+fast-forward `git pull` in `/var/www/localmarket`, then validates and reloads
+nginx.
+
+Add these repository secrets in GitHub Actions:
+
+```text
+EC2_SSH_KEY   Private SSH key with access to the EC2 instance. Required.
+EC2_HOST      EC2 public IP or hostname. Optional; defaults to 35.166.153.71.
+EC2_USER      SSH username. Optional; defaults to ubuntu.
+EC2_APP_DIR   App directory. Optional; defaults to /var/www/localmarket.
+```
+
+The current EC2 deployment expects:
+
+```text
+Host: 35.166.153.71
+User: ubuntu
+App directory: /var/www/localmarket
+Web root: /var/www/localmarket/public
+```
+
 ## Vercel
 
 Vercel does not run normal PHP apps by default. This repo keeps `vercel.json` and `api/index.php` as a lightweight compatibility bridge using the community `vercel-php` runtime. Static assets are served from `public/`, and all app routes are forwarded to the same `public/front_controller.php` router.

@@ -1,0 +1,96 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+jobs:
+  php-lint:
+    name: PHP lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          coverage: none
+
+      - name: Lint PHP files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          while IFS= read -r -d '' file; do
+            php -l "$file"
+          done < <(find . -type f -name '*.php' -not -path './vendor/*' -print0)
+
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    needs: php-lint
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/master'
+
+    env:
+      EC2_HOST: ${{ secrets.EC2_HOST || '35.166.153.71' }}
+      EC2_USER: ${{ secrets.EC2_USER || 'ubuntu' }}
+      EC2_APP_DIR: ${{ secrets.EC2_APP_DIR || '/var/www/localmarket' }}
+
+    steps:
+      - name: Configure SSH
+        shell: bash
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${EC2_SSH_KEY}" ]; then
+            echo "Missing required GitHub Actions secret: EC2_SSH_KEY" >&2
+            exit 1
+          fi
+
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${EC2_SSH_KEY}" > ~/.ssh/ec2_deploy_key
+          chmod 600 ~/.ssh/ec2_deploy_key
+          ssh-keyscan -T 10 -H "${EC2_HOST}" >> ~/.ssh/known_hosts
+
+      - name: Pull latest code on EC2
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ssh -o BatchMode=yes -i ~/.ssh/ec2_deploy_key "${EC2_USER}@${EC2_HOST}" "EC2_APP_DIR='${EC2_APP_DIR}' bash -s" <<'EOF'
+          set -euo pipefail
+
+          cd "${EC2_APP_DIR}"
+
+          sudo -u www-data git fetch --prune origin master
+          sudo -u www-data git checkout master
+          sudo -u www-data git pull --ff-only origin master
+
+          sudo nginx -t
+          sudo systemctl reload nginx
+
+          if systemctl list-units --type=service --all 'php*-fpm.service' --no-legend | awk '{print $1}' | grep -q .; then
+            systemctl list-units --type=service --all 'php*-fpm.service' --no-legend \
+              | awk '{print $1}' \
+              | while read -r service; do
+                  sudo systemctl reload "${service}" || true
+                done
+          fi
+          EOF
