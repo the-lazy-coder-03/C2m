@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../app/helpers/jwt_helper.php';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/helpers/product_image_helper.php';
 
 $currentUser = require_user_from_jwt();
 $account = null;
@@ -14,6 +15,7 @@ $stats = [
 $purchaseHistory = [];
 $sellingHistory = [];
 $activeOrders = [];
+$activeListings = [];
 $error = '';
 $statusClasses = [
     'pending' => 'warning',
@@ -131,6 +133,37 @@ try {
         ':user_id' => $currentUser['user_id'],
     ]);
     $activeOrders = $activeStmt->fetchAll();
+
+    $activeListingsStmt = $pdo->prepare(
+        'SELECT
+            p.product_id,
+            p.title,
+            p.price,
+            p.quantity,
+            p.location,
+            p.created_at,
+            c.category_name,
+            primary_image.image_path AS primary_image_path
+         FROM products p
+         LEFT JOIN categories c ON c.category_id = p.category_id
+         LEFT JOIN LATERAL (
+            SELECT image_path
+            FROM product_images
+            WHERE product_id = p.product_id
+            ORDER BY is_primary DESC, uploaded_at ASC, image_id ASC
+            LIMIT 1
+         ) primary_image ON TRUE
+         WHERE p.seller_id = :seller_id
+           AND p.status = :active_status
+           AND p.active = TRUE
+         ORDER BY p.created_at DESC
+         LIMIT 25'
+    );
+    $activeListingsStmt->execute([
+        ':active_status' => 'active',
+        ':seller_id' => $currentUser['user_id'],
+    ]);
+    $activeListings = $activeListingsStmt->fetchAll();
 } catch (Throwable $exception) {
     $error = 'Account details could not be loaded: ' . $exception->getMessage();
 }
@@ -205,6 +238,58 @@ if (!function_exists('render_order_table')) {
         <?php
     }
 }
+
+if (!function_exists('render_live_listing_table')) {
+    function render_live_listing_table(array $listings): void
+    {
+        if ($listings === []) {
+            echo '<div class="alert alert-info mb-0">You do not have live listings right now.</div>';
+
+            return;
+        }
+        ?>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Listing</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Location</th>
+                        <th class="text-end">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($listings as $listing): ?>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img
+                                        class="cart-item-image"
+                                        src="<?php echo htmlspecialchars(public_asset_url($listing['primary_image_path'])); ?>"
+                                        alt="<?php echo htmlspecialchars($listing['title']); ?>"
+                                        loading="lazy"
+                                    >
+                                    <div>
+                                        <a class="fw-semibold text-decoration-none" href="/product/<?php echo (int) $listing['product_id']; ?>">
+                                            <?php echo htmlspecialchars($listing['title']); ?>
+                                        </a>
+                                        <div class="text-muted small"><?php echo htmlspecialchars(date('d M Y', strtotime($listing['created_at']))); ?></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><?php echo htmlspecialchars($listing['category_name'] ?? 'Uncategorized'); ?></td>
+                            <td><?php echo (int) $listing['quantity']; ?></td>
+                            <td><?php echo htmlspecialchars($listing['location'] ?: 'Location not listed'); ?></td>
+                            <td class="text-end fw-semibold">R<?php echo number_format((float) $listing['price'], 2); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        <?php
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -236,7 +321,7 @@ if (!function_exists('render_order_table')) {
                     <div class="market-card bg-white p-3 account-side-panel">
                         <div class="nav flex-column nav-pills account-tabs" id="account-tab" role="tablist" aria-orientation="vertical">
                             <button class="nav-link active text-start" id="details-tab" data-bs-toggle="pill" data-bs-target="#details-panel" type="button" role="tab" aria-controls="details-panel" aria-selected="true">Account details</button>
-                            <button class="nav-link text-start" id="active-orders-tab" data-bs-toggle="pill" data-bs-target="#active-orders-panel" type="button" role="tab" aria-controls="active-orders-panel" aria-selected="false">Active orders <span class="badge text-bg-light ms-2"><?php echo (int) $stats['active_orders']; ?></span></button>
+                            <button class="nav-link text-start" id="active-orders-tab" data-bs-toggle="pill" data-bs-target="#active-orders-panel" type="button" role="tab" aria-controls="active-orders-panel" aria-selected="false">Live listings <span class="badge text-bg-light ms-2"><?php echo (int) $stats['active_listings']; ?></span></button>
                             <button class="nav-link text-start" id="purchase-history-tab" data-bs-toggle="pill" data-bs-target="#purchase-history-panel" type="button" role="tab" aria-controls="purchase-history-panel" aria-selected="false">Purchase history <span class="badge text-bg-light ms-2"><?php echo (int) $stats['purchase_orders']; ?></span></button>
                             <button class="nav-link text-start" id="selling-history-tab" data-bs-toggle="pill" data-bs-target="#selling-history-panel" type="button" role="tab" aria-controls="selling-history-panel" aria-selected="false">Selling history <span class="badge text-bg-light ms-2"><?php echo (int) $stats['selling_orders']; ?></span></button>
                         </div>
@@ -304,9 +389,9 @@ if (!function_exists('render_order_table')) {
                         </section>
 
                         <section class="tab-pane fade market-card bg-white p-4" id="active-orders-panel" role="tabpanel" aria-labelledby="active-orders-tab" tabindex="0">
-                            <h2 class="h4 fw-bold mb-1">Active orders</h2>
-                            <p class="text-secondary mb-4">Orders currently pending, paid, or shipped.</p>
-                            <?php render_order_table($activeOrders, $statusClasses, 'You do not have active orders right now.', 'With', (int) $currentUser['user_id']); ?>
+                            <h2 class="h4 fw-bold mb-1">Live listings</h2>
+                            <p class="text-secondary mb-4">Live listings for your account.</p>
+                            <?php render_live_listing_table($activeListings); ?>
                         </section>
 
                         <section class="tab-pane fade market-card bg-white p-4" id="purchase-history-panel" role="tabpanel" aria-labelledby="purchase-history-tab" tabindex="0">

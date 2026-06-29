@@ -105,7 +105,7 @@ $canCheckout = $items !== [] && !$hasBlockedItems && $missingItemCount === 0;
         <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
             <div>
                 <h1 class="fw-bold mb-1">My Cart</h1>
-                <p class="text-secondary mb-0">Review your selected products before checkout.</p>
+                <p class="text-secondary mb-0">Review your cart.</p>
             </div>
             <a class="btn btn-outline-primary" href="/products">Continue Browsing</a>
         </div>

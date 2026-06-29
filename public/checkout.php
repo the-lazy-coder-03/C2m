@@ -423,7 +423,6 @@ $canCheckout = $cartIds !== [] && $items !== [] && !$hasBlockedItems && count($c
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <div class="form-help mt-2">Demo checkout records the payment as successful in the database. Do not enter real card details.</div>
                         </div>
 
                         <button class="btn btn-success btn-lg w-100 mt-3" type="submit">Pay R<?php echo number_format($cartTotal, 2); ?> and Place Order</button>
