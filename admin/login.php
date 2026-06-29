@@ -27,7 +27,6 @@ $err = $_GET['err'] ?? '';
                     <p>Sign in to manage the platform</p>
                 </div>
             </div>
-            <button class="btn" type="button" data-action="toggle-theme" aria-label="Toggle theme">🌓</button>
         </div>
 
         <?php if ($err === '1'): ?>
@@ -52,7 +51,6 @@ $err = $_GET['err'] ?? '';
                 <label class="inline">
                     <input type="checkbox" name="remember" /> Remember me
                 </label>
-                <span class="small">Tip: press 🌓 to toggle theme</span>
             </div>
 
             <button class="btn primary" type="submit" style="width:100%;">Login</button>

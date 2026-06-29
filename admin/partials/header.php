@@ -72,9 +72,6 @@ $active = $active ?? 'dashboard';
                 </button>
                 
                 <div class="ms-auto d-flex align-items-center">
-                    <button class="btn btn-outline-secondary me-2 btn-sm" type="button" data-action="toggle-theme">
-                        <i class="bi bi-moon-stars"></i>
-                    </button>
                     <button class="btn btn-danger btn-sm" type="button" data-action="logout">Logout</button>
                 </div>
             </div>

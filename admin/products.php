@@ -114,9 +114,6 @@ $statusClasses = [
         <h1 class="h2 mb-1"><?php echo htmlspecialchars($pageTitle); ?></h1>
         <p class="text-muted mb-0">Edit seller listings, prices, status, and visibility.</p>
     </div>
-    <a class="btn btn-outline-primary btn-sm" href="/products" target="_blank">
-        <i class="bi bi-box-arrow-up-right me-1"></i> View Public Listings
-    </a>
 </div>
 
 <div class="d-flex flex-wrap gap-2 mb-4">
