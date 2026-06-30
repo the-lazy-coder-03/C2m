@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
             <div class="col-lg-8">
                 <div class="mb-4">
                     <h1 class="fw-bold">Create a product listing</h1>
-                    <p class="text-secondary mb-0">Upload JPG, PNG, or WEBP images. The first image becomes the primary image.</p>
+                    <p class="text-secondary mb-0">Upload JPG, PNG, or WEBP images.</p>
                 </div>
 
                 <?php if ($errors !== []): ?>
@@ -229,9 +229,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($pdo)) {
                                 data-max-bytes="<?php echo $maxImageBytes; ?>"
                             >
                             <div class="form-help mt-2">
-                                Select up to <?php echo $maxImageCount; ?> photos. The first photo becomes the main image.
-                                Hold Command on Mac or Ctrl on Windows to choose more than one photo.
-                                Maximum size: <?php echo htmlspecialchars($maxImageSizeLabel); ?> per image.
+                                Select up to <?php echo $maxImageCount; ?> photos.
                             </div>
                             <div class="image-preview-grid mt-3" data-image-preview aria-live="polite"></div>
                         </div>
