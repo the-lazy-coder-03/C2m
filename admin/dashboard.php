@@ -10,7 +10,6 @@ $stats = [
     'active_listings' => 0,
     'total_listings' => 0,
     'total_orders' => 0,
-    'pending_orders' => 0,
     'successful_payments' => 0,
     'revenue' => 0,
 ];
@@ -28,7 +27,6 @@ try {
             (SELECT COUNT(*) FROM products WHERE active = TRUE AND status = 'active') AS active_listings,
             (SELECT COUNT(*) FROM products) AS total_listings,
             (SELECT COUNT(*) FROM orders) AS total_orders,
-            (SELECT COUNT(*) FROM orders WHERE status = 'pending') AS pending_orders,
             (SELECT COUNT(*) FROM payments WHERE status = 'successful') AS successful_payments,
             COALESCE((SELECT SUM(amount) FROM payments WHERE status = 'successful'), 0) AS revenue"
     )->fetch() ?: $stats;
@@ -116,8 +114,7 @@ $statusClasses = [
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body">
                     <h6 class="card-subtitle mb-2 text-muted">Orders</h6>
-                    <h2 class="card-title mb-1"><?php echo number_format((int) $stats['total_orders']); ?></h2>
-                    <p class="card-text text-warning small"><?php echo number_format((int) $stats['pending_orders']); ?> pending</p>
+                    <h2 class="card-title mb-0"><?php echo number_format((int) $stats['total_orders']); ?></h2>
                 </div>
             </div>
         </div>
