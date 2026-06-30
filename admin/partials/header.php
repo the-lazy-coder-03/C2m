@@ -51,11 +51,6 @@ $active = $active ?? 'dashboard';
                         <i class="bi bi-bag-check me-2"></i> Sold Items
                     </a>
                 </li>
-                <li class="nav-item mb-1">
-                    <a href="/admin/settings" class="nav-link text-white <?php echo $active === 'settings' ? 'active bg-primary rounded' : ''; ?>">
-                        <i class="bi bi-gear me-2"></i> Settings
-                    </a>
-                </li>
             </ul>
 
         </div>

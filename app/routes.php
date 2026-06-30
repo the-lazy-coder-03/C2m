@@ -75,7 +75,5 @@ $router->get('/admin/products', 'admin/products.php');
 $router->get('/admin/products.php', 'admin/products.php');
 $router->post('/admin/delete-listing', 'admin/delete_listing.php');
 $router->post('/admin/delete_listing.php', 'admin/delete_listing.php');
-$router->get('/admin/settings', 'admin/settings.php');
-$router->get('/admin/settings.php', 'admin/settings.php');
 $router->get('/admin/logout', 'admin/logout.php');
 $router->get('/admin/logout.php', 'admin/logout.php');
