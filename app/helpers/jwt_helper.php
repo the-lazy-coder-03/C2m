@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../config/config.php';
+require_once __DIR__ . '/../../config/database.php';
 
 if (!function_exists('jwt_base64url_encode')) {
     function jwt_base64url_encode(string $data): string
@@ -163,8 +164,35 @@ if (!function_exists('current_user_from_jwt')) {
             return null;
         }
 
+        $userId = (int) $payload['sub'];
+
+        try {
+            $pdo = getDbConnection();
+            $stmt = $pdo->prepare(
+                'SELECT active
+                 FROM users
+                 WHERE user_id = :user_id
+                 LIMIT 1'
+            );
+            $stmt->execute([':user_id' => $userId]);
+            $user = $stmt->fetch();
+            $isActive = $user && in_array($user['active'], [true, 1, '1', 't', 'true'], true);
+        } catch (Throwable) {
+            $isActive = false;
+        }
+
+        if (!$isActive) {
+            if (!headers_sent()) {
+                clear_user_jwt();
+            } else {
+                unset($_COOKIE[jwt_cookie_name()]);
+            }
+
+            return null;
+        }
+
         return [
-            'user_id' => (int) $payload['sub'],
+            'user_id' => $userId,
             'name' => (string) ($payload['name'] ?? ''),
             'email' => (string) ($payload['email'] ?? ''),
         ];

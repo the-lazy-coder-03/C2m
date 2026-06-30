@@ -2,10 +2,14 @@
 $pageTitle = 'Users';
 $active = 'users';
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../app/helpers/session_helper.php';
 require __DIR__ . '/partials/header.php';
 
 $users = [];
 $error = '';
+$flash = $_SESSION['admin_flash'] ?? null;
+unset($_SESSION['admin_flash']);
+$statusToken = getCsrfToken('admin_user_status');
 
 try {
     $pdo = getDbConnection();
@@ -56,6 +60,12 @@ try {
 <?php elseif ($users === []): ?>
     <div class="alert alert-info">No users found in the database.</div>
 <?php else: ?>
+    <?php if ($flash): ?>
+        <div class="alert alert-<?php echo htmlspecialchars($flash['type']); ?>">
+            <?php echo htmlspecialchars($flash['message']); ?>
+        </div>
+    <?php endif; ?>
+
     <div class="card shadow-sm border-0">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
             <h5 class="mb-0">All Users</h5>
@@ -102,11 +112,28 @@ try {
                                 </div>
                             </td>
                             <td>
-                                <?php if ($isActive): ?>
-                                    <span class="badge rounded-pill text-bg-success">Active</span>
-                                <?php else: ?>
-                                    <span class="badge rounded-pill text-bg-secondary">Inactive</span>
-                                <?php endif; ?>
+                                <form class="d-flex align-items-center gap-2" action="/admin/users/status" method="POST">
+                                    <input type="hidden" name="user_id" value="<?php echo (int) $user['user_id']; ?>">
+                                    <input type="hidden" name="active" value="0">
+                                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($statusToken); ?>">
+                                    <div class="form-check form-switch mb-0">
+                                        <input
+                                            class="form-check-input"
+                                            type="checkbox"
+                                            role="switch"
+                                            name="active"
+                                            value="1"
+                                            aria-label="Toggle account status for <?php echo htmlspecialchars(trim($user['first_name'] . ' ' . $user['last_name'])); ?>"
+                                            <?php echo $isActive ? 'checked' : ''; ?>
+                                            onchange="this.form.submit();"
+                                        >
+                                    </div>
+                                    <?php if ($isActive): ?>
+                                        <span class="badge rounded-pill text-bg-success">Active</span>
+                                    <?php else: ?>
+                                        <span class="badge rounded-pill text-bg-secondary">Inactive</span>
+                                    <?php endif; ?>
+                                </form>
                             </td>
                             <td class="pe-4"><?php echo htmlspecialchars(date('d M Y', strtotime($user['created_at']))); ?></td>
                         </tr>

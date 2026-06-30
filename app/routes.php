@@ -67,6 +67,8 @@ $router->get('/admin/dashboard', 'admin/dashboard.php');
 $router->get('/admin/dashboard.php', 'admin/dashboard.php');
 $router->get('/admin/users', 'admin/users.php');
 $router->get('/admin/users.php', 'admin/users.php');
+$router->post('/admin/users/status', 'admin/update_user_status.php');
+$router->post('/admin/update_user_status.php', 'admin/update_user_status.php');
 $router->get('/admin/orders', 'admin/orders.php');
 $router->get('/admin/orders.php', 'admin/orders.php');
 $router->get('/admin/products', 'admin/products.php');
